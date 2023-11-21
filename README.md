@@ -1,2 +1,3 @@
-# java-GameProject
-Game project for CMSC 22 using Java language (OOP).
+Game Repository
+
+Clone this repository on your workspace to start working. 
