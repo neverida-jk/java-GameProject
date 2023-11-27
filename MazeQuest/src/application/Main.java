@@ -5,6 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/*
+ *  What for: 
+ *  
+ *  Entry point for launching the application.
+ *  Initializes the JavaFX application.
+ *  Launches the main game components.
+ */
 public class Main extends Application 
 {
 	@Override
