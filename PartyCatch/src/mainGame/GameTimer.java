@@ -143,6 +143,7 @@ class GameTimer extends AnimationTimer {
 	        
 		}
 		
+		//score on upper left (copied sa everwing)
 		private void drawScore(){
 			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 			this.gc.setFill(Color.YELLOW);
@@ -152,6 +153,7 @@ class GameTimer extends AnimationTimer {
 			this.gc.fillText(basket.getScore()+"", 90, 30);
 		}
 		
+		//(copied sa everwing)
 		private void drawGameOver(){
 			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
 			this.gc.setFill(Color.WHITE);
@@ -160,7 +162,7 @@ class GameTimer extends AnimationTimer {
 
 		/*
 	     * Moves the objects and checks if they collide with the basket in checkCollision()
-	     * If they are outside the screen, they get removed from the ArrayList
+	     * checkCollision 'di ko pa ma-gets, copied din sa everwing, tho hindi pa gumagana
 	     * */
 		private void moveObjects() {
 			for(int i = 0; i < this.objects.size(); i++){

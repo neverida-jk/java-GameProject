@@ -24,14 +24,6 @@ public class Basket extends Sprite {
 		super(Basket.INITIAL_POSX, Basket.INITIAL_POSY,Basket.BASKET_IMAGE);
 		this.name = name;
 		this.alive = true;
-		//heart system implement here wala pa function e
-		//need sa is alive
-		//yung sa bullets di ko muna nilagyan kasi diba
-		//di naman nagashoot yung basket HAHAHAHA
-		// unsure sa speed kasi diba nababago yun
-
-		//parang kulang pa to di ko alam yung ipapalit sa
-		//array na bullet(based kay tandang at everwing)
 	}
 
 	//Name of Basket Character
