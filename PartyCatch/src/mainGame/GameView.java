@@ -47,7 +47,7 @@ public class GameView {
 		static final int WINDOW_HEIGHT = 700;
 		static final int WINDOW_WIDTH = 800;
 		private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
-		// private static final Image ABOUT_DEV = new Image("dev.png",800,600,false,false); <== DEV Pictures 
+		private static final Image ABOUT_DEV = new Image("images/aboutPage.png",900,700,false,false); // <== DEV Pictures 
 		
 		// Fonts and colors
 		static final Font DESC_FONT = Font.font("Arial", FontWeight.BOLD,14);
@@ -135,10 +135,10 @@ public class GameView {
 		// for about developer UI
 		private Pane createAboutPane() {
 			Pane about = new Pane();
-			//ImageView img1 = new ImageView(ABOUT_DEV); <== uncomment for about DEV graphic
+			ImageView aboutImg = new ImageView(ABOUT_DEV); //<== for DEV graphic
 			
 	        
-			about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT));
+			about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg); //<== add on parameters all elements needed
 			return about;
 		}
 }
