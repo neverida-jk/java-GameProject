@@ -1,7 +1,5 @@
 package mainGame;
 
-//import game.GameStage;
-
 /*
  *  What for:
  *  
@@ -13,6 +11,7 @@ package mainGame;
  *  Manages transitions between different views (e.g., menus, in-game screens).
  */
 
+import mainGame.GameTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 
@@ -78,6 +77,14 @@ public class GameView {
 			this.stage.show();
 		}
 		
+		//main game stage; edit this when GameTimer is done
+		private void setGame(Stage stage) { 
+		    GraphicsContext gc = this.canvas.getGraphicsContext2D();
+		    GameTimer gameTimer = new GameTimer(scene, gc);
+		    gameTimer.start();
+		    stage.setScene(scene);
+		}
+		
 		private void setAbout(Stage stage) {
 	        stage.setScene(aboutScene);
 		}
@@ -105,7 +112,6 @@ public class GameView {
 		}
 		
 		
-		
 		// for UI, such as buttons too
 		private VBox createVBox() {
 	    	VBox vbox = new VBox();
@@ -116,18 +122,27 @@ public class GameView {
 			Image aboutDevs = new Image("images/aboutDevs.png", 500, 100, false, false);
 	        ImageView aboutView = new ImageView(aboutDevs);
 	        
+	        //new Game button graphics
+	        Image start = new Image("images/newGame.png", 800, 100, false, false);
+	        ImageView newGame = new ImageView(start);
+	        
+	        //create buttons
 	        Button b1 = new Button(); //<= button for aboutDevs
+	        Button b2 = new Button(); //<= button for newGame
 	        
 	        // set graphics for button
 	        b1.setGraphic(aboutView);
+	        b2.setGraphic(newGame);
 	        
 	        //button styling
 	        b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+	        b2.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
 	        
 	        //function on button click
 	        b1.setOnMouseClicked(event -> setAbout(stage));
+	        b2.setOnMouseClicked(event -> setGame(stage));
 	        
-	        vbox.getChildren().addAll(b1); //<== add on parameters all of the VBox elements
+	        vbox.getChildren().addAll(b1,b2); //<== add on parameters all of the VBox elements
 	        
 	        return vbox;
 	    }
