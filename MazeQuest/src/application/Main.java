@@ -1,5 +1,6 @@
 package application;
 	
+import mainGame.GameView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -12,23 +13,16 @@ import javafx.stage.Stage;
  *  Initializes the JavaFX application.
  *  Launches the main game components.
  */
-public class Main extends Application 
-{
-	@Override
-	public void start(Stage primaryStage) {
-		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-			//hehhe
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+
+public class Main extends Application {
 	
+    public void start(Stage stage) {
+        GameView newGame = new GameView();
+        newGame.setStage(stage);
+    }
+
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 }
