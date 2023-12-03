@@ -7,6 +7,7 @@ class Banana extends FallingObject {
 	private final static int BANANA_SPEED = 3;//pede palitan kung ano want niyo speed -- same dun sa pineapple at apple pede rin palitan yun
 	private final static Image BANANA_IMAGE = new Image("images/banana_sprite.gif");
 	private final static int GAIN = 5; // score point
+	private final static int LOSE = 3; // score point
 
 	Banana(double xPos, double yPos) {
 		super(xPos, yPos, BANANA_IMAGE);
@@ -28,9 +29,9 @@ class Banana extends FallingObject {
 			basket.gainScore(Banana.GAIN);
 		}else {
 			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
-				//add logic kapag hindi nasalo ng basket
+				System.out.println("HINDI MO NAKUHA BANANA BUBU, -"+this.LOSE); 
+				basket.loseScore(Banana.LOSE);
 				this.vanish();
-				System.out.println("HINDI MO NAKUHA BANANA BUBU"); 
 			}
 		}
 	}

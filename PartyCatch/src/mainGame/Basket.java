@@ -52,6 +52,11 @@ public class Basket extends Sprite {
     	System.out.println("Score: "+score);
     }
     
+    void loseScore (int decrease) {
+    	this.score-=decrease;
+    	System.out.println("Score: "+score);
+    }
+    
 	//functions for minus points, score multiplier,
 	//slow fallling object, time boost 
 	// in short(powerups and downs)

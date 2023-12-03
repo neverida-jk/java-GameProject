@@ -6,7 +6,8 @@ public class Pineapple extends FallingObject {
 	
 	private final static int PINEAPPLE_SPEED = 5;
 	private final static Image PINEAPPLE_IMAGE = new Image("images/pineapple_sprite.gif");
-	private final static int GAIN = 10;
+	private final static int GAIN = 20;
+	private final static int LOSE = 10;
 
 	Pineapple(double xPos, double yPos) {
 		super(xPos, yPos, PINEAPPLE_IMAGE);
@@ -28,9 +29,9 @@ public class Pineapple extends FallingObject {
 			basket.gainScore(Pineapple.GAIN);
 		}else {
 			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
-				//add logic kapag hindi nasalo ng basket
+				System.out.println("HINDI MO NAKUHA PINEAPPLE BUBU, -"+this.LOSE); 
+				basket.loseScore(Pineapple.LOSE);
 				this.vanish();
-				System.out.println("HINDI MO NAKUHA PINEAPPLE BUBU"); 
 			}
 		}
 	}
