@@ -102,14 +102,14 @@ class GameTimer extends AnimationTimer {
 	void FruitsSpawn(Long currentNanoTime){
 		//BOMB SPAWN 
 		double spawnElapsedTimeB = (currentNanoTime-this.startSpawn) / 1000000000.0;
-		if(spawnElapsedTimeB > GameTimer.SPAWN_DELAY){
+		if(spawnElapsedTimeB > GameTimer.SPAWN_DELAY_B){
 
 			this.startSpawn = System.nanoTime();
 		}
 		if (this.spawnBombCount == 0){ // checks if initial number of bomb has not been generated
 			this.generateBOMB(SPAWN_NUM_BOMB);// initial number of slime = 1
 			this.spawnBombCount++; // increments counter of spawned banana, false if condition
-		} else if (spawnElapsedTimeB > GameTimer.SPAWN_DELAY) { // checks if spawnElapsedTime is greater than 1.5 seconds 
+		} else if (spawnElapsedTimeB > GameTimer.SPAWN_DELAY_B) { // checks if spawnElapsedTime is greater than 1.5 seconds 
 			this.generateBOMB(SPAWN_NUM_BOMB); // spawn number of banana = 1
 			this.startSpawn = System.nanoTime(); // resets banana spawn timer to its nanoTime (0 to compare again until 1.5)
 			this.spawnBombCount++;

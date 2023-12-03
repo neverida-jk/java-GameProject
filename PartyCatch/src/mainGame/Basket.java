@@ -19,11 +19,13 @@ public class Basket extends Sprite {
 	private final static double INITIAL_POSX = 300;
 	private final static double INITIAL_POSY = 600;
 	final static int BASKET_SPEED = 20;
+	public static int BASKET_LIFE = 100;//public para madali makita nung bomb HAHAHAHA
 
 	Basket(String name){
 		super(Basket.INITIAL_POSX, Basket.INITIAL_POSY,Basket.BASKET_IMAGE);
 		this.name = name;
 		this.alive = true;
+		Basket.BASKET_LIFE = 100;//sinet ko alng na life nung mismong basket
 	}
 
 	//Name of Basket Character
