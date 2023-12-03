@@ -26,6 +26,12 @@ class Banana extends FallingObject {
 			System.out.println(this.GAIN + " been added to the score!");
 			this.vanish();
 			basket.gainScore(Banana.GAIN);
+		}else {
+			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
+				//add logic kapag hindi nasalo ng basket
+				this.vanish();
+				System.out.println("HINDI MO NAKUHA BANANA BUBU"); 
+			}
 		}
 	}
 

@@ -35,125 +35,156 @@ import javafx.stage.Stage;
 
 public class GameView {
 	// Class attributes
-		private Scene scene;
-		private Scene splashScene;		// the splash scene
-		private Scene aboutScene; 		// about developers scene
-		private Stage stage;
-		private Group root;
-		private Canvas canvas;
-		
-		// Constants for window dimensions and assets
-		static final int WINDOW_HEIGHT = 700;
-		static final int WINDOW_WIDTH = 800;
-		private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
-		private static final Image ABOUT_DEV = new Image("images/aboutPage.png",900,700,false,false); // <== DEV Pictures 
-		
-		// Fonts and colors
-		static final Font DESC_FONT = Font.font("Arial", FontWeight.BOLD,14);
-		public static final Color FONT_COLOR = Color.WHITE;
-		
-		// Class constructor
-		public GameView() {
-			this.root = new Group(); // group of leaf nodes
-			this.scene = new Scene(root, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
-			this.canvas = new Canvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
-		}
-		
-		// Methods to set up the game stage and scenes
-		public void setStage(Stage stage) {
-			
-			this.stage = stage;
-			// set stage elements here
-			this.root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),canvas);
-			this.stage.setTitle("Party Catch");
-			
-			//for menu initialization (about,instructions,start game)
-			this.initSplash(stage);
-			this.initAbout(stage);
-			
-			this.stage.setScene(this.splashScene);
-			this.stage.setResizable(false);
+	private Scene scene;
+	private Scene splashScene;		// the splash scene
+	private Scene aboutScene; 		// about developers scene
+	private Scene instScene; 		// how 2 play scene
+	private Stage stage;
+	private Group root;
+	private Canvas canvas;
 
-			this.stage.show();
-		}
-		
-		//main game stage; edit this when GameTimer is done
-		private void setGame(Stage stage) { 
-		    GraphicsContext gc = this.canvas.getGraphicsContext2D();
-		    GameTimer gameTimer = new GameTimer(scene, gc);
-		    gameTimer.start();
-		    stage.setScene(scene);
-		}
-		
-		private void setAbout(Stage stage) {
-	        stage.setScene(aboutScene);
-		}
-		
-		// Methods to create various UI components
-		private Canvas createCanvas(int width, int height) {
-	    	Canvas canvas = new Canvas(width, height);
-	        GraphicsContext gc = canvas.getGraphicsContext2D();
-	        Image bg = new Image("images/ben10bg.jpg"); //<-- need at least 700x800 for bg image
-	        gc.drawImage(bg, 0, 0);
-	        return canvas;     
-	    }
-		
-		// Initializes the splash screen, about screen, and instructions screen
-		private void initSplash(Stage stage) {
-			StackPane root = new StackPane();
-	        root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),this.createVBox());
-	        this.splashScene = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
-		}
-		
-		private void initAbout(Stage stage) {
-			ScrollPane root = new ScrollPane();
-	        this.aboutScene = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
-	        root.setContent(this.createAboutPane());
-		}
-		
-		
-		// for UI, such as buttons too
-		private VBox createVBox() {
-	    	VBox vbox = new VBox();
-	        vbox.setAlignment(Pos.CENTER);
-	        vbox.setSpacing(8);
-	        
-	        // about Devs button graphics 
-			Image aboutDevs = new Image("images/aboutDevs.png", 500, 100, false, false);
-	        ImageView aboutView = new ImageView(aboutDevs);
-	        
-	        //new Game button graphics
-	        Image start = new Image("images/newGame.png", 800, 100, false, false);
-	        ImageView newGame = new ImageView(start);
-	        
-	        //create buttons
-	        Button b1 = new Button(); //<= button for aboutDevs
-	        Button b2 = new Button(); //<= button for newGame
-	        
-	        // set graphics for button
-	        b1.setGraphic(aboutView);
-	        b2.setGraphic(newGame);
-	        
-	        //button styling
-	        b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
-	        b2.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
-	        
-	        //function on button click
-	        b1.setOnMouseClicked(event -> setAbout(stage));
-	        b2.setOnMouseClicked(event -> setGame(stage));
-	        
-	        vbox.getChildren().addAll(b1,b2); //<== add on parameters all of the VBox elements
-	        
-	        return vbox;
-	    }
-		
-		// for about developer UI
-		private Pane createAboutPane() {
-			Pane about = new Pane();
-			ImageView aboutImg = new ImageView(ABOUT_DEV); //<== for DEV graphic
-			
-	        
-			about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg); //<== add on parameters all elements needed
-			return about;
+	// Constants for window dimensions and assets
+	static final int WINDOW_HEIGHT = 700;
+	static final int WINDOW_WIDTH = 800;
+	private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
+	private static final Image ABOUT_DEV = new Image("images/aboutPage.png",900,700,false,false); // <== DEV Pictures 
+	private static final Image INST_VIEW = new Image("images/instPage.png",900,700,false,false); // <== DEV Pictures 
+	
+	// Fonts and colors
+	static final Font DESC_FONT = Font.font("Arial", FontWeight.BOLD,14);
+	public static final Color FONT_COLOR = Color.WHITE;
+
+	// Class constructor
+	public GameView() {
+		this.root = new Group(); // group of leaf nodes
+		this.scene = new Scene(root, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+		this.canvas = new Canvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+	}
+
+	// Methods to set up the game stage and scenes
+	public void setStage(Stage stage) {
+
+		this.stage = stage;
+		// set stage elements here
+		this.root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),canvas);
+		this.stage.setTitle("Party Catch");
+
+		//for menu initialization (about,instructions,start game)
+		this.initSplash(stage);
+		this.initAbout(stage);
+		this.initInst(stage);
+
+		this.stage.setScene(this.splashScene);
+		this.stage.setResizable(false);
+
+		this.stage.show();
+	}
+
+	//main game stage; edit this when GameTimer is done
+	private void setGame(Stage stage) { 
+		GraphicsContext gc = this.canvas.getGraphicsContext2D();
+		GameTimer gameTimer = new GameTimer(scene, gc);
+		gameTimer.start();
+		stage.setScene(scene);
+	}
+
+	private void setAbout(Stage stage) {
+		stage.setScene(aboutScene);
+	}
+	
+	private void setInst(Stage stage) {
+		stage.setScene(instScene);
+	}
+
+	// Methods to create various UI components
+	private Canvas createCanvas(int width, int height) {
+		Canvas canvas = new Canvas(width, height);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		Image bg = new Image("images/ben10bg.jpg"); //<-- need at least 700x800 for bg image
+		gc.drawImage(bg, 0, 0);
+		return canvas;     
+	}
+
+	// Initializes the splash screen, about screen, and instructions screen
+	private void initSplash(Stage stage) {
+		StackPane root = new StackPane();
+		root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),this.createVBox());
+		this.splashScene = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+	}
+
+	private void initAbout(Stage stage) {
+		ScrollPane root = new ScrollPane();
+		this.aboutScene = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+		root.setContent(this.createAboutPane());
+	}
+	
+	private void initInst(Stage stage) {
+		ScrollPane root = new ScrollPane();
+		this.instScene = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+		root.setContent(this.createInstPane());
+	}
+
+
+	// for UI, such as buttons too
+	private VBox createVBox() {
+		VBox vbox = new VBox();
+		vbox.setAlignment(Pos.CENTER);
+		vbox.setSpacing(8);
+
+		// about Devs button graphics 
+		Image aboutDevs = new Image("images/aboutDevs.png", 400, 100, false, false);
+		ImageView aboutView = new ImageView(aboutDevs);
+
+		//new Game button graphics
+		Image start = new Image("images/newGame.png", 500, 100, false, false);
+		ImageView newGame = new ImageView(start);
+
+		// instructions button graphics 
+		Image instructions = new Image("images/instructions.png", 400, 100, false, false);
+		ImageView instView = new ImageView(instructions);
+
+		//create buttons
+		Button b1 = new Button(); //<= button for aboutDevs
+		Button b2 = new Button(); //<= button for newGame
+		Button b3 = new Button(); //<= button for instructions
+
+		// set graphics for button
+		b1.setGraphic(aboutView);
+		b2.setGraphic(newGame);
+		b3.setGraphic(instView);
+
+		//button styling
+		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+		b2.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+		b3.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+
+		//function on button click
+		b1.setOnMouseClicked(event -> setAbout(stage));
+		b2.setOnMouseClicked(event -> setGame(stage));
+		b3.setOnMouseClicked(event -> setInst(stage));
+
+		vbox.getChildren().addAll(b2,b3,b1); //<== add on parameters all of the VBox elements
+
+		return vbox;
+	}
+
+	// for about developer page
+	private Pane createAboutPane() {
+		Pane about = new Pane();
+		ImageView aboutImg = new ImageView(ABOUT_DEV); //<== for DEV graphic
+
+
+		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg); //<== add on parameters all elements needed
+		return about;
+	}
+	
+	// for instructions page
+		private Pane createInstPane() {
+			Pane inst = new Pane();
+			ImageView aboutImg = new ImageView(INST_VIEW); //<== for DEV graphic
+
+
+			inst.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg); //<== add on parameters all elements needed
+			return inst;
 		}
 }

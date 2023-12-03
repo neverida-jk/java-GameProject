@@ -1,11 +1,36 @@
 package mainGame;
 
+import javafx.scene.image.Image;
+
 /*
  * What for:
  * 
  * "Bomb (Minus 1 Heart)" power-down.
  * Provides methods to apply the power-down effect to the game, deducting one heart when a bomb is hit.
  */
-public class Bomb {
+public class Bomb extends FallingObject {
+	private final static int BOMB_SPEED = 7;
+	private final static Image BOMB_IMAGE = new Image("images/bomb.gif",200,200,false,false);
+	private final static int GAIN = 10;
+
+	Bomb(double xPos, double yPos) {
+		super(xPos, yPos, BOMB_IMAGE);
+		this.speed = Bomb.BOMB_SPEED;
+	}
+	
+	void move(){
+		this.yPos += Bomb.BOMB_SPEED;
+		if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this monster passes through the bottom of the scene, set visible to false
+			this.vanish();
+		}
+	}
+
+	@Override
+	void checkCollision(Basket basket) {
+		if(this.collidesWith(basket)){
+			System.out.println("BOMBA YUN BUBU");
+			this.vanish();
+		}
+	}
 
 }
