@@ -12,8 +12,7 @@ import javafx.scene.image.Image;
 abstract class FallingObject extends Sprite {
 	
 	double speed;
-	private final static double COLL_SPEED = 8;
-
+	final static double COLL_SPEED = 10;
 	FallingObject(double x, double y, Image image){
 		super(x,y,image);
 		this.speed = FallingObject.COLL_SPEED;
@@ -27,5 +26,6 @@ abstract class FallingObject extends Sprite {
 	}
 
 	void checkCollision(Basket basket){
+
 	}
 }

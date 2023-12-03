@@ -16,7 +16,7 @@ public class Basket extends Sprite {
 	private int score;
 
 	private final static Image BASKET_IMAGE = new Image("images/basket.jpg");
-	private final static double INITIAL_POSX = 0;
+	private final static double INITIAL_POSX = 300;
 	private final static double INITIAL_POSY = 600;
 	final static int BASKET_SPEED = 20;
 

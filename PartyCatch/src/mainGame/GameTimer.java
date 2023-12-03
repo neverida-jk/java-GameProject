@@ -32,15 +32,27 @@ class GameTimer extends AnimationTimer {
 	private ArrayList<FallingObject> objects;
 	private double backgroundY;
 	private Image background = new Image( "images/ben10bg.jpg" );
+	private Image here = new Image("images/basket.jpg");
 	private long startSpawn;
+	private long startSpawnP;
+	private long startSpawnA;
+	private int spawnBananaCount;
+	private int spawnPineappleCount;
+	private int spawnAppleCount;
 	
-	public final static int MIN_OBJECT = 0;
+	public final static int MIN_OBJECT = 2;
 	public final static int MAX_OBJECT = 5;
-	public final static int OBJECT_TYPES = 1;
-	public final static int WIDTH_PER_OBJECT = 80;
+	public final static int OBJECT_TYPES = 3;
+	public final static int WIDTH_PER_OBJECT_BANANA= 300;
+	public final static int WIDTH_PER_OBJECT_PINEAPPLE = 500;
 	public final static int OBJECT_INITIAL_YPOS = -60;
-	public final static int BACKGROUND_SPEED = 2;
-	public final static double SPAWN_DELAY = 1.5;
+	public final static int BACKGROUND_SPEED = 0;
+	public final static double SPAWN_DELAY = 1.5;//delay bago lumabas yung banana pic
+	public final static double SPAWN_DELAY_P = 7;//delay bago lumabas yung pineapple pic
+	public final static double SPAWN_DELAY_A = 10;//delay bago lumabas yung apple pic
+	public final static int SPAWN_NUM_BANANA = 1;//isang pic lang na banana every time na mag aappear talagang mabilis lang pagspawn nito - normies
+	public final static int SPAWN_NUM_PINEAPPLE = 1;//isang pic lang ng pineapple every time and interval na 7 seconds bago yugng sunod na pic - 2nd magandang ability
+	public final static int SPAWN_NUM_APPLE = 1;//isang pic lang ng apple every time and magaappear tapos may interval na 10 seconds - pinakamalakas na fruit
 	
 	
     GameTimer(Scene scene, GraphicsContext gc) {
@@ -48,13 +60,15 @@ class GameTimer extends AnimationTimer {
     	this.scene = scene;    	
     	this.basket= new Basket("Default");
     	this.objects = new ArrayList<FallingObject>();
-    	this.startSpawn = System.nanoTime();
+    	this.spawnBananaCount = 0;
+    	this.startSpawn = this.startSpawnP = this.startSpawnA = System.nanoTime();// time start
     	this.prepareActionHandlers();
     }
     
 	@Override
 	public void handle(long currentNanoTime) {
 		this.redrawBackgroundImage();
+		this.FruitsSpawn(currentNanoTime);
                 
         this.renderSprites();
         this.moveSprites();
@@ -80,6 +94,51 @@ class GameTimer extends AnimationTimer {
 	        if(this.backgroundY>=GameView.WINDOW_HEIGHT) 
 	        	this.backgroundY = GameView.WINDOW_HEIGHT-this.background.getHeight();
 	    }
+
+	 void FruitsSpawn(Long currentNanoTime){
+	 	double spawnElapsedTime = (currentNanoTime-this.startSpawn) / 1000000000.0;
+	 	if(spawnElapsedTime > GameTimer.SPAWN_DELAY){
+	 		
+	 		this.startSpawn = System.nanoTime();
+	 	}
+	 	if (this.spawnBananaCount == 0){ // checks if initial number of banana has not been generated
+	 		this.generateBANANA(SPAWN_NUM_BANANA);// initial number of slime = 1
+		   	this.spawnBananaCount++; // increments counter of spawned banana, false if condition
+		} else if (spawnElapsedTime > GameTimer.SPAWN_DELAY) { // checks if spawnElapsedTime is greater than 1.5 seconds 
+			this.generateBANANA(SPAWN_NUM_BANANA); // spawn number of banana = 1
+	        this.startSpawn = System.nanoTime(); // resets banana spawn timer to its nanoTime (0 to compare again until 1.5)
+	        this.spawnBananaCount++;
+	    }
+	 	
+	 	double spawnElapsedTimeP = (currentNanoTime-this.startSpawnP) / 1000000000.0;
+		if(spawnElapsedTimeP > GameTimer.SPAWN_DELAY_P){
+			 		
+	 		this.startSpawnP = System.nanoTime();
+	 	}
+	 	if (this.spawnPineappleCount == 0){  // checks if initial number of pineapple has not been generated
+	 		this.generatePINEAPPLE(SPAWN_NUM_PINEAPPLE);// initial number of pineapple = 1
+		   	this.spawnPineappleCount++; // increments counter of spawned pineapple, false if condition
+		} else if (spawnElapsedTimeP > GameTimer.SPAWN_DELAY_P) { // checks if spawnElapsedTimeP is greater than 7 seconds 
+			this.generatePINEAPPLE(SPAWN_NUM_PINEAPPLE); // spawn number of pineapple = 1
+	        this.startSpawn = System.nanoTime(); // resets banana spawn timer to its nanoTime (0 to compare again until 7)
+	        this.spawnPineappleCount++;
+	    }
+	 	
+	 	double spawnElapsedTimeA = (currentNanoTime-this.startSpawnA) / 1000000000.0;
+		if(spawnElapsedTimeA > GameTimer.SPAWN_DELAY_A){
+			 		
+	 		this.startSpawnA = System.nanoTime();
+	 	}
+	 	if (this.spawnAppleCount == 0){ // checks if initial number of apple has not been generated
+	 		this.generateAPPLE(SPAWN_NUM_APPLE);// initial number of apple = 1
+		   	this.spawnAppleCount++; // increments counter of spawned apple, false if condition
+		} else if (spawnElapsedTimeA > GameTimer.SPAWN_DELAY_A) { // checks if spawnElapsedTimeA is greater than 10 seconds 
+			this.generateAPPLE(SPAWN_NUM_APPLE); // spawn number of apple = 1
+	        this.startSpawnA = System.nanoTime(); // resets apple spawn timer to its nanoTime (0 to compare again until 10)
+	        this.spawnAppleCount++;
+	    }
+	 }
+	 
 	 
 	 void renderSprites() {
 	    	// draw guardian
@@ -174,4 +233,38 @@ class GameTimer extends AnimationTimer {
 				else this.objects.remove(i);
 			}
 		}
+
+
+		// Instantiates 1 banana at a random x and y locations
+		private void generateBANANA(int numberOfBANANA){
+			Random r = new Random(); // randomize number for speed in y
+			for (int i=0; i < numberOfBANANA;i++) { // loops through each instance of banana
+				int y = -600;//to start at the very top
+				int x = r.nextInt(GameView.WINDOW_WIDTH - 250);//random x location to start
+				this.objects.add(new Banana(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
+			}
+		}
+	
+	// Instantiates 1 pineapple at a random x and y locations
+		private void generatePINEAPPLE(int numberOfPINEAPPLE){
+			Random r = new Random(); // randomize number for speed in y
+			for (int i=0; i < numberOfPINEAPPLE;i++) { // loops through each instance of pineapple
+				int y = -600;//to start at the very top
+				int x = r.nextInt(GameView.WINDOW_WIDTH - 250);//r.nextInt((WIDTH_PER_OBJECT_PINEAPPLE * GameView.WINDOW_HEIGHT)/500); random x location to start
+				this.objects.add(new Pineapple(x,y)); // adds an instance of pineapple in the array list of falling objects, adds more to renderSprites() method
+			}
+		}
+		
+		// Instantiates 1 apple at a random x and y locations
+		private void generateAPPLE(int numberOfAPPLE){
+			Random r = new Random(); // randomize number for speed in y
+			for (int i=0; i < numberOfAPPLE;i++) { // loops through each instance of apple
+				int y = -600;//to start at the very top
+				int x = r.nextInt(GameView.WINDOW_WIDTH - 250);//r.nextInt((WIDTH_PER_OBJECT_BANANA * GameView.WINDOW_HEIGHT)/500); random x location to start
+				this.objects.add(new Apple(x,y));// adds an instance of apple   in the array list of falling objects, adds more to renderSprites() method
+			}
+		}
+		
+
+
 }
