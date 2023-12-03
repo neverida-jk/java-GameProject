@@ -228,7 +228,7 @@ class GameTimer extends AnimationTimer {
 				FallingObject m = this.objects.get(i);
 				if(m.isVisible()){
 					m.move();
-					//m.checkCollision(this.objects);
+					m.checkCollision(basket);
 				}
 				else this.objects.remove(i);
 			}

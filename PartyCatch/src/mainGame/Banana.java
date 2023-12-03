@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 class Banana extends FallingObject {
 	private final static int BANANA_SPEED = 3;//pede palitan kung ano want niyo speed -- same dun sa pineapple at apple pede rin palitan yun
 	private final static Image BANANA_IMAGE = new Image("images/banana_sprite.gif");
-	private final static int GAIN = 5;
+	private final static int GAIN = 5; // score point
 
 	Banana(double xPos, double yPos) {
 		super(xPos, yPos, BANANA_IMAGE);
