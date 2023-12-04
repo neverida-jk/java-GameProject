@@ -32,11 +32,10 @@ public class Bomb extends FallingObject {
 			System.out.println("BOMBA YUN BUBU");
 			Basket.BASKET_LIFE -= BOMB_DMG;
 			this.vanish();
-		}
-
-		if(Basket.BASKET_LIFE == 0){
-			System.out.println("LUH NAKA TATLONG BOMB AMP");
-			basket.die();
+			if(Basket.BASKET_LIFE == 0){
+				basket.die();
+				System.out.println("LUH NAKA TATLONG BOMB AMP");
+			}
 		}
 	}
 
