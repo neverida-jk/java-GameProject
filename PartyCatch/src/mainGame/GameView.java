@@ -42,6 +42,7 @@ public class GameView {
 	private Stage stage;
 	private Group root;
 	private Canvas canvas;
+	private MediaPlayer mediaPlayer; // playing background music
 
 	// Constants for window dimensions and assets
 	static final int WINDOW_HEIGHT = 700;
@@ -59,6 +60,19 @@ public class GameView {
 		this.root = new Group(); // group of leaf nodes
 		this.scene = new Scene(root, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+		
+		// Initialize the MediaPlayer for background music
+	/*try {
+        Media media = new Media(getClass().getResource("/music/BGM_MainMenu.mp3").toExternalForm());
+        this.mediaPlayer = new MediaPlayer(media);
+        this.mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        
+        System.out.println("Background music initialized.");
+	} catch (Exception e) {
+		//e.printStackTrace();
+		//System.err.println("Error initializing background music: " + e.getMessage());
+	}*/
+	
 	}
 
 	// Methods to set up the game stage and scenes
@@ -68,6 +82,9 @@ public class GameView {
 		// set stage elements here
 		this.root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),canvas);
 		this.stage.setTitle("Party Catch");
+		
+		// start playing the background music
+		//this.mediaPlayer.play();
 
 		//for menu initialization (about,instructions,start game)
 		this.initSplash(stage);
@@ -100,8 +117,9 @@ public class GameView {
 	private Canvas createCanvas(int width, int height) {
 		Canvas canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		Image bg = new Image("images/ben10bg.jpg"); //<-- need at least 700x800 for bg image
-		gc.drawImage(bg, 0, 0);
+		Image bg = new Image("images/BG_MainMenu.jpg"); //<-- need at least 700x800 for bg image
+        double xOffset = -250;
+        gc.drawImage(bg, xOffset, 0);
 		return canvas;     
 	}
 
