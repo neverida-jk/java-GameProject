@@ -29,8 +29,10 @@ public class Pineapple extends FallingObject {
 			basket.gainScore(Pineapple.GAIN);
 		}else {
 			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
+				if (basket.getScore() != 0) {
 				System.out.println("HINDI MO NAKUHA PINEAPPLE BUBU, -"+this.LOSE); 
 				basket.loseScore(Pineapple.LOSE);
+				}
 				this.vanish();
 			}
 		}

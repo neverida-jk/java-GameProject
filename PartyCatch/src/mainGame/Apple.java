@@ -28,8 +28,10 @@ public class Apple extends FallingObject {
 			basket.gainScore(Apple.GAIN);
 		}else {
 			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
+				if (basket.getScore() != 0) {
 				System.out.println("HINDI MO NAKUHA APPLE BUBU, -"+this.LOSE); 
 				basket.loseScore(Apple.LOSE);
+				}
 				this.vanish();
 			}
 		}

@@ -10,9 +10,9 @@ import javafx.scene.image.Image;
  */
 public class Bomb extends FallingObject {
 	private final static int BOMB_SPEED = 7;
-	private final static Image BOMB_IMAGE = new Image("images/bomb.gif",200,200,false,false);
-	private final static int GAIN = 10;
-	private static final int BOMB_DMG = 20;
+	private final static Image BOMB_IMAGE = new Image("images/bomb.gif",100,100,false,false);
+	//private final static int GAIN = 10;
+	private static final int BOMB_DMG = 1;
 
 	Bomb(double xPos, double yPos) {
 		super(xPos, yPos, BOMB_IMAGE);
@@ -30,12 +30,12 @@ public class Bomb extends FallingObject {
 	void checkCollision(Basket basket) {
 		if(this.collidesWith(basket)){
 			System.out.println("BOMBA YUN BUBU");
-			Basket.BASKET_LIFE = Basket.BASKET_LIFE - BOMB_DMG;
+			Basket.BASKET_LIFE -= BOMB_DMG;
 			this.vanish();
 		}
 
 		if(Basket.BASKET_LIFE == 0){
-			System.out.println("LUH NAKA LIMANG BOMB AMP");
+			System.out.println("LUH NAKA TATLONG BOMB AMP");
 			basket.die();
 		}
 	}
