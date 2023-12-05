@@ -12,6 +12,9 @@ package mainGame;
  */
 
 import mainGame.GameTimer;
+
+import java.nio.file.Paths;
+
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 
@@ -42,14 +45,17 @@ public class GameView {
 	private Stage stage;
 	private Group root;
 	private Canvas canvas;
-	private MediaPlayer mediaPlayer; // playing background music
+	static MediaPlayer mediaPlayer; // playing background music
 
 	// Constants for window dimensions and assets
 	static final int WINDOW_HEIGHT = 700;
 	static final int WINDOW_WIDTH = 800;
 	private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
 	private static final Image ABOUT_DEV = new Image("images/aboutPage.png",900,700,false,false); // <== DEV Pictures 
-	private static final Image INST_VIEW = new Image("images/instPage.png",900,700,false,false); // <== DEV Pictures 
+	private static final Image INST_VIEW = new Image("images/instPage.png",900,700,false,false); // <== DEV Pictures
+	static final String BGM_MAINMENU = "src/music/BGM_MainMenu.mp3"; //<== path to music
+	static final String BGM_STARTGAME = "src/music/BGM_Mountain.mp3"; //<== path to music
+	
 	
 	// Fonts and colors
 	static final Font DESC_FONT = Font.font("Arial", FontWeight.BOLD,14);
@@ -61,17 +67,6 @@ public class GameView {
 		this.scene = new Scene(root, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
 		this.canvas = new Canvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
 		
-		// Initialize the MediaPlayer for background music
-	/*try {
-        Media media = new Media(getClass().getResource("/music/BGM_MainMenu.mp3").toExternalForm());
-        this.mediaPlayer = new MediaPlayer(media);
-        this.mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        
-        System.out.println("Background music initialized.");
-	} catch (Exception e) {
-		//e.printStackTrace();
-		//System.err.println("Error initializing background music: " + e.getMessage());
-	}*/
 	
 	}
 
@@ -93,8 +88,19 @@ public class GameView {
 
 		this.stage.setScene(this.splashScene);
 		this.stage.setResizable(false);
-
+		music(BGM_MAINMENU);
+		
 		this.stage.show();
+	}
+	
+	// Method that plays background music; call this and replace music with String path, refer to variables on top
+	static void music(String music) {
+		if (mediaPlayer != null) mediaPlayer.stop();
+		 //<= stop any music first before playing another
+		Media h = new Media(Paths.get(music).toUri().toString());
+		mediaPlayer = new MediaPlayer(h);
+		mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+		mediaPlayer.play();
 	}
 
 	//main game stage; edit this when GameTimer is done
@@ -103,6 +109,7 @@ public class GameView {
 		GameTimer gameTimer = new GameTimer(scene, gc);
 		gameTimer.start();
 		stage.setScene(scene);
+		music(BGM_STARTGAME);
 	}
 
 	private void setAbout(Stage stage) {

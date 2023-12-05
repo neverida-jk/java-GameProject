@@ -6,20 +6,20 @@ import javafx.scene.image.Image;
 class Banana extends FallingObject {
 	private final static int BANANA_SPEED = 3;//pede palitan kung ano want niyo speed -- same dun sa pineapple at apple pede rin palitan yun
 	private final static Image BANANA_IMAGE = new Image("images/banana_sprite.gif");
-	private final static int GAIN = 5; // score point
+	static int GAIN = 5; // score point
 	private final static int LOSE = 3; // score point
 
 	Banana(double xPos, double yPos) {
 		super(xPos, yPos, BANANA_IMAGE);
 		this.speed = Banana.BANANA_SPEED;
 	}
-	
+	/*
 	void move(){
 		this.yPos += Banana.BANANA_SPEED;
 		if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this monster passes through the bottom of the scene, set visible to false
 			this.vanish();
 		}
-	}
+	}*/
 
 	@Override
 	void checkCollision(Basket basket) {

@@ -6,7 +6,7 @@ public class Pineapple extends FallingObject {
 	
 	private final static int PINEAPPLE_SPEED = 5;
 	private final static Image PINEAPPLE_IMAGE = new Image("images/pineapple_sprite.gif");
-	private final static int GAIN = 20;
+	static int GAIN = 20;
 	private final static int LOSE = 10;
 
 	Pineapple(double xPos, double yPos) {
