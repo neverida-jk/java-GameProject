@@ -40,11 +40,13 @@ class GameTimer extends AnimationTimer {
 	private long startSpawnB;
 	private long startSpawnDouble;
 	private long startSpawnH;
+	private long startSpawnSFO;
 	private int spawnBananaCount;
 	private int spawnPineappleCount;
 	private int spawnAppleCount;
 	private int spawnBombCount;
 	private int spawnDoubleCount;
+	private int spawnSFOCount;
 	private int spawnHeartCount;
 
 	public final static int MIN_OBJECT = 2;
@@ -56,12 +58,14 @@ class GameTimer extends AnimationTimer {
 	public final static int BACKGROUND_SPEED = 0;
 	public final static double SPAWN_DELAY = 1;//delay bago lumabas yung banana pic
 	public final static double SPAWN_DELAY_HEART = 35; //delay bago lumabas yung heart pic
+	public final static double SPAWN_DELAY_SFO = 17.5;
 	public final static double SPAWN_DELAY_DOUBLE = 30;//delay bago lumabas yung double score pic
 	public final static double SPAWN_DELAY_B = 2.5;//delay bago lumabas yung bomb pic
 	public final static double SPAWN_DELAY_P = 7;//delay bago lumabas yung pineapple pic
 	public final static double SPAWN_DELAY_A = 11.5;//delay bago lumabas yung apple pic
 	public final static int SPAWN_NUM_HEART = 1;//spawn 1 time only every time
 	public final static int SPAWN_NUM_BOMB = 1;
+	public final static int SPAWN_NUM_SFO = 1;
 	public final static int SPAWN_NUM_DOUBLE = 1;//spawn 1 time only every time
 	public final static int SPAWN_NUM_BANANA = 1;//isang pic lang na banana every time na mag aappear talagang mabilis lang pagspawn nito - normies
 	public final static int SPAWN_NUM_PINEAPPLE = 1;//isang pic lang ng pineapple every time and interval na 7 seconds bago yugng sunod na pic - 2nd magandang ability
@@ -73,8 +77,8 @@ class GameTimer extends AnimationTimer {
 		this.basket= new Basket("Default");
 		this.objects = new ArrayList<FallingObject>();
 		this.hearts = new ArrayList<HeartsSystem>();
-		this.spawnBananaCount = this.spawnHeartCount = this.spawnAppleCount = this.spawnBombCount = this.spawnDoubleCount = this.spawnPineappleCount = 0;
-		this.startSpawn = this.startSpawnH = this.startSpawnDouble = this.startSpawnP = this.startSpawnA = this.startSpawnB =  System.nanoTime();// time start
+		this.spawnBananaCount = this.spawnHeartCount = this.spawnAppleCount = this.spawnBombCount = this.spawnDoubleCount = this.spawnPineappleCount = this.spawnSFOCount = 0;
+		this.startSpawn = this.startSpawnH = this.startSpawnDouble = this.startSpawnP = this.startSpawnA = this.startSpawnB = this.startSpawnSFO =  System.nanoTime();// time start
 		this.prepareActionHandlers();
 	}
 
@@ -114,18 +118,33 @@ class GameTimer extends AnimationTimer {
 
 	void FruitsSpawn(Long currentNanoTime){
 		//HEART SPAWN
-				double spawnElapsedTimeH = (currentNanoTime-this.startSpawnH) / 1000000000.0;
-				if(spawnElapsedTimeH > GameTimer.SPAWN_DELAY_HEART){
+		double spawnElapsedTimeH = (currentNanoTime-this.startSpawnH) / 1000000000.0;
+		if(spawnElapsedTimeH > GameTimer.SPAWN_DELAY_HEART){
 
-					this.startSpawnH = System.nanoTime();
+			this.startSpawnH = System.nanoTime();
+		}
+		if (this.spawnHeartCount == 0 && spawnElapsedTimeH == 1000000000.0){ // checks if initial number of banana has not been generated
+			this.generateHEART(SPAWN_NUM_HEART);// initial number of slime = 1
+			this.spawnHeartCount++; // increments counter of spawned banana, false if condition
+		} else if (spawnElapsedTimeH > GameTimer.SPAWN_DELAY_HEART) { // checks if spawnElapsedTime is greater than 1.5 seconds 
+			this.generateHEART(SPAWN_NUM_HEART); // spawn number of banana = 1
+			this.startSpawnH = System.nanoTime(); // resets banana spawn timer to its nanoTime (0 to compare again until 1.5)
+			this.spawnHeartCount++;
+		}
+		
+		//SLOW FALLING OBJECTS SPAWN
+				double spawnElapsedTimeSFO = (currentNanoTime-this.startSpawnSFO) / 1000000000.0;
+				if(spawnElapsedTimeSFO > GameTimer.SPAWN_DELAY_SFO){
+
+					this.startSpawnSFO = System.nanoTime();
 				}
-				if (this.spawnHeartCount == 0 && spawnElapsedTimeH == 1000000000.0){ // checks if initial number of banana has not been generated
-					this.generateHEART(SPAWN_NUM_HEART);// initial number of slime = 1
-					this.spawnHeartCount++; // increments counter of spawned banana, false if condition
-				} else if (spawnElapsedTimeH > GameTimer.SPAWN_DELAY_HEART) { // checks if spawnElapsedTime is greater than 1.5 seconds 
-					this.generateHEART(SPAWN_NUM_HEART); // spawn number of banana = 1
-					this.startSpawnH = System.nanoTime(); // resets banana spawn timer to its nanoTime (0 to compare again until 1.5)
-					this.spawnHeartCount++;
+				if (this.spawnSFOCount == 0 && spawnElapsedTimeSFO == 1000000000.0){ // checks if initial number of bomb has not been generated
+					this.generateSFO(SPAWN_NUM_SFO);// initial number of slime = 1
+					this.spawnSFOCount++; // increments counter of spawned banana, false if condition
+				} else if (spawnElapsedTimeSFO > GameTimer.SPAWN_DELAY_SFO) { // checks if spawnElapsedTime is greater than 1.5 seconds 
+					this.generateSFO(SPAWN_NUM_SFO); // spawn number of banana = 1
+					this.startSpawnSFO = System.nanoTime(); // resets banana spawn timer to its nanoTime (0 to compare again until 1.5)
+					this.spawnSFOCount++;
 				}
 
 		//DOUBLE SCORE SPAWN
@@ -326,6 +345,15 @@ class GameTimer extends AnimationTimer {
 			int y = -600;//to start at the very top
 			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
 			this.objects.add(new Heart_PU(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
+		}
+	}
+	
+	private void generateSFO(int spawnNumSFO){
+		Random r = new Random(); // randomize number for speed in y
+		for (int i=0; i < spawnNumSFO;i++) { // loops through each instance of banana
+			int y = -600;//to start at the very top
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
+			this.objects.add(new SlowFallingObjects(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
 

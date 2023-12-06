@@ -3,7 +3,7 @@ package mainGame;
 import javafx.scene.image.Image;
 public class Apple extends FallingObject {
 	
-	private final static int APPLE_SPEED = 7;
+	static int APPLE_SPEED = 7;
 	private final static Image APPLE_IMAGE = new Image("images/apple_sprite.gif");
 	static int GAIN = 10;
 	private final static int LOSE = 5;

@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
  */
 abstract class FallingObject extends Sprite {
 	
-	double speed;
+	 double speed;
 	//final static double COLL_SPEED = 10;
 	FallingObject(double x, double y, Image image){
 		super(x,y,image);

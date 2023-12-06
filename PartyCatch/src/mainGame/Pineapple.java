@@ -4,7 +4,7 @@ package mainGame;
 import javafx.scene.image.Image;
 public class Pineapple extends FallingObject {
 	
-	private final static int PINEAPPLE_SPEED = 5;
+	static int PINEAPPLE_SPEED = 5;
 	private final static Image PINEAPPLE_IMAGE = new Image("images/pineapple_sprite.gif");
 	static int GAIN = 20;
 	private final static int LOSE = 10;

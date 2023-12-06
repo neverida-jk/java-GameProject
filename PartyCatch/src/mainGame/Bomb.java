@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
  * Provides methods to apply the power-down effect to the game, deducting one heart when a bomb is hit.
  */
 public class Bomb extends FallingObject {
-	private final static int BOMB_SPEED = 7;
+	static int BOMB_SPEED = 7;
 	private final static Image BOMB_IMAGE = new Image("images/bomb.gif",100,100,false,false);
 	//private final static int GAIN = 10;
 	private static final int BOMB_DMG = 1;
