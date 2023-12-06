@@ -6,17 +6,21 @@ public class SlowFallingObjectsTimer extends Thread {
 	private SlowFallingObjects SFO;
 	private int time;
 	private final static int UPGRADED_TIME = 10; //<== edit this for power up time
+	public boolean alive;
 	
 	SlowFallingObjectsTimer(SlowFallingObjects SFO){
 		this.SFO = SFO;
 		this.time = SlowFallingObjectsTimer.UPGRADED_TIME;	
 		this.name = "Bomb Slow: "; //<== change for different name; different power up
+		this.alive = true;
 	}
 	
 	/*DoubleScoreTimer(DoubleScore doubleScore){
 		this.doubleScore = doubleScore;
 		this.time = DoubleScoreTimer.UPGRADED_TIME;
 	}*/
+	
+	
 
 	void refresh(){
 		this.time = SlowFallingObjectsTimer.UPGRADED_TIME;
@@ -27,8 +31,8 @@ public class SlowFallingObjectsTimer extends Thread {
      * */
 	private void countDown(){
 		while(this.time!=0){
-			GameTimer.time = this.time;
-			GameTimer.pUpName = this.name; //<== name to be print on powerup name
+			GameTimer.times = this.time;
+			GameTimer.pUpNames = this.name; //<== name to be print on powerup name
 			try{
 				Thread.sleep(1000);
 				this.time--;
@@ -37,8 +41,8 @@ public class SlowFallingObjectsTimer extends Thread {
 			}
 		}
 		this.SFO.deactivate();
-		GameTimer.pUpName = ""; //<== reset name and time after countdown
-		GameTimer.time = 0; //^^
+		GameTimer.pUpNames = ""; //<== reset name and time after countdown
+		GameTimer.times = 0; //^^
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import javafx.scene.text.FontWeight;
 class GameTimer extends AnimationTimer {
 	private GraphicsContext gc;
 	private Basket basket;
+	private SlowFallingObjects SFOT;
 	private Scene scene;
 	private static boolean goLeft;
 	private static boolean goRight;
@@ -50,6 +51,9 @@ class GameTimer extends AnimationTimer {
 	private int spawnHeartCount;
 	public static int time;
 	public static String pUpName;
+	public static int times;
+	public static String pUpNames;
+	
 
 	public final static int MIN_OBJECT = 2;
 	public final static int MAX_OBJECT = 5;
@@ -60,7 +64,7 @@ class GameTimer extends AnimationTimer {
 	public final static int BACKGROUND_SPEED = 0;
 	public final static double SPAWN_DELAY = 1;//delay bago lumabas yung banana pic
 	public final static double SPAWN_DELAY_HEART = 35; //delay bago lumabas yung heart pic
-	public final static double SPAWN_DELAY_SFO = 25;
+	public final static double SPAWN_DELAY_SFO = 27.5; 
 	public final static double SPAWN_DELAY_DOUBLE = 30;//delay bago lumabas yung double score pic
 	public final static double SPAWN_DELAY_B = 2.5;//delay bago lumabas yung bomb pic
 	public final static double SPAWN_DELAY_P = 7;//delay bago lumabas yung pineapple pic
@@ -78,6 +82,7 @@ class GameTimer extends AnimationTimer {
 		this.scene = scene;    
 		this.basket= new Basket("Default");
 		this.pUpName = "";
+		this.pUpNames = "";
 		this.objects = new ArrayList<FallingObject>();
 		this.hearts = new ArrayList<HeartsSystem>();
 		this.spawnBananaCount = this.spawnHeartCount = this.spawnAppleCount = this.spawnBombCount = this.spawnDoubleCount = this.spawnPineappleCount = this.spawnSFOCount = 0;
@@ -96,8 +101,13 @@ class GameTimer extends AnimationTimer {
 		this.moveSprites();
 
 		this.drawScore();
-		this.drawTimer(time, pUpName);
-
+		if(GameTimer.time != 0) {
+			this.drawTimer(time, pUpName);//double point
+		}
+		if(GameTimer.times != 0) {
+			this.drawTimer1(times, pUpNames);//bomb
+		}
+		
 		if(!this.basket.isAlive()) {
 			this.drawGameOver();		// draw Game Over text
 
@@ -310,6 +320,12 @@ class GameTimer extends AnimationTimer {
 		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
 		this.gc.setFill(Color.YELLOW);
 		this.gc.fillText(name + time + "s left.", 20, 100);
+	}
+	
+	void drawTimer1(int time, String name){
+		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		this.gc.setFill(Color.YELLOW);
+		this.gc.fillText(name + time + "s left.", 20, 120);
 	}
 
 	//(copied sa everwing)

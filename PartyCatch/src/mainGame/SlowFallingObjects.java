@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
  */
 public class SlowFallingObjects extends FallingObject{
 	
+	
 	//private DoubleScoreTimer timer;
 	private SlowFallingObjectsTimer timer;
 	private final static int SPEED = 7;
@@ -38,10 +39,19 @@ public class SlowFallingObjects extends FallingObject{
 			this.vanish();
 		}
 	}*/
+	
+	boolean isActive(){
+		return this.isActivated;
+	}
+	
+	boolean die(){
+		return this.isActivated = true;
+	}
 
 	void activate(){
 		if(!this.isActivated){
-			this.isActivated = true;
+			die();
+			//this.isActivated = true;
 			this.timer = new SlowFallingObjectsTimer(this);
 			this.timer.start();
 			System.out.println("SLOW MO ACTIVATED FOR 10 SECONDS!");
