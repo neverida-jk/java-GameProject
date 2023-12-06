@@ -48,6 +48,8 @@ class GameTimer extends AnimationTimer {
 	private int spawnDoubleCount;
 	private int spawnSFOCount;
 	private int spawnHeartCount;
+	public static int time;
+	public static String pUpName;
 
 	public final static int MIN_OBJECT = 2;
 	public final static int MAX_OBJECT = 5;
@@ -58,7 +60,7 @@ class GameTimer extends AnimationTimer {
 	public final static int BACKGROUND_SPEED = 0;
 	public final static double SPAWN_DELAY = 1;//delay bago lumabas yung banana pic
 	public final static double SPAWN_DELAY_HEART = 35; //delay bago lumabas yung heart pic
-	public final static double SPAWN_DELAY_SFO = 17.5;
+	public final static double SPAWN_DELAY_SFO = 25;
 	public final static double SPAWN_DELAY_DOUBLE = 30;//delay bago lumabas yung double score pic
 	public final static double SPAWN_DELAY_B = 2.5;//delay bago lumabas yung bomb pic
 	public final static double SPAWN_DELAY_P = 7;//delay bago lumabas yung pineapple pic
@@ -75,6 +77,7 @@ class GameTimer extends AnimationTimer {
 		this.gc = gc;
 		this.scene = scene;    
 		this.basket= new Basket("Default");
+		this.pUpName = "";
 		this.objects = new ArrayList<FallingObject>();
 		this.hearts = new ArrayList<HeartsSystem>();
 		this.spawnBananaCount = this.spawnHeartCount = this.spawnAppleCount = this.spawnBombCount = this.spawnDoubleCount = this.spawnPineappleCount = this.spawnSFOCount = 0;
@@ -93,6 +96,7 @@ class GameTimer extends AnimationTimer {
 		this.moveSprites();
 
 		this.drawScore();
+		this.drawTimer(time, pUpName);
 
 		if(!this.basket.isAlive()) {
 			this.drawGameOver();		// draw Game Over text
@@ -300,6 +304,12 @@ class GameTimer extends AnimationTimer {
 		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
 		this.gc.setFill(Color.RED);
 		this.gc.fillText(Basket.BASKET_LIFE+"", 680, 60);
+	}
+	
+	void drawTimer(int time, String name){
+		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+		this.gc.setFill(Color.YELLOW);
+		this.gc.fillText(name + time + "s left.", 20, 100);
 	}
 
 	//(copied sa everwing)
