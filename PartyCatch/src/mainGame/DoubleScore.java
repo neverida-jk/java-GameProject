@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 class DoubleScore extends FallingObject{
 	private DoubleScoreTimer timer;
 	private final static int SPEED = 7;
-	private final static Image IMAGE = new Image("images/doubleScore.png",100,100,false,false);
+	private final static Image IMAGE = new Image("images/doubleScore.png",120,120,false,false);
 	//private final static int GAIN = 10;
 	private static final int DMG = 1;
 	private boolean isActivated;

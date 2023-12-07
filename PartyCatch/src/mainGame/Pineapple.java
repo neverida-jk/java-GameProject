@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 public class Pineapple extends FallingObject {
 	
 	static int PINEAPPLE_SPEED = 5;
-	private final static Image PINEAPPLE_IMAGE = new Image("images/pineapple_sprite.gif");
+	private final static Image PINEAPPLE_IMAGE = new Image("images/watermelonCatch.png",220,160,false,false);
 	static int GAIN = 20;
 	private final static int LOSE = 10;
 
@@ -30,7 +30,7 @@ public class Pineapple extends FallingObject {
 		}else {
 			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
 				if (basket.getScore() != 0) {
-				System.out.println("HINDI MO NAKUHA PINEAPPLE BUBU, -"+this.LOSE); 
+				System.out.println("You didn't catch the watermelon, -"+this.LOSE); 
 				basket.loseScore(Pineapple.LOSE);
 				}
 				this.vanish();

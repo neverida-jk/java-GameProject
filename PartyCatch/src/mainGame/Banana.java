@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 
 class Banana extends FallingObject {
 	static int BANANA_SPEED = 3;//pede palitan kung ano want niyo speed -- same dun sa pineapple at apple pede rin palitan yun
-	private final static Image BANANA_IMAGE = new Image("images/banana_sprite.gif");
+	private final static Image BANANA_IMAGE = new Image("images/bananaCatch.png",220,140,false,false);
 	static int GAIN = 5; // score point
 	private final static int LOSE = 3; // score point
 
@@ -30,7 +30,7 @@ class Banana extends FallingObject {
 		}else {
 			if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this item passes through the bottom of the scene, set visible to false
 				if (basket.getScore() != 0) {
-				System.out.println("HINDI MO NAKUHA BANANA BUBU, -"+this.LOSE); 
+				System.out.println("You didn't catch the banana, -"+this.LOSE); 
 				basket.loseScore(Banana.LOSE);
 				}
 				this.vanish();

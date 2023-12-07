@@ -15,7 +15,7 @@ public class SlowFallingObjects extends FallingObject{
 	//private DoubleScoreTimer timer;
 	private SlowFallingObjectsTimer timer;
 	private final static int SPEED = 7;
-	private final static Image IMAGE = new Image("images/u.jpg",100,100,false,false);
+	private final static Image IMAGE = new Image("images/poisonCatch.png",120,120,false,false);
 	//private final static int GAIN = 10;
 	private static final int DMG = 1;
 	private boolean isActivated;

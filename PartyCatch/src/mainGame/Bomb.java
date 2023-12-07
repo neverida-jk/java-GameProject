@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
  */
 public class Bomb extends FallingObject {
 	static int BOMB_SPEED = 7;
-	private final static Image BOMB_IMAGE = new Image("images/bomb.gif",100,100,false,false);
+	private final static Image BOMB_IMAGE = new Image("images/bombCatch.png",120,120,false,false);
 	//private final static int GAIN = 10;
 	private static final int BOMB_DMG = 1;
 
@@ -29,12 +29,12 @@ public class Bomb extends FallingObject {
 	@Override
 	void checkCollision(Basket basket) {
 		if(this.collidesWith(basket)){
-			System.out.println("BOMBA YUN BUBU");
+			System.out.println("YOU CAUGHT A BOMB, -1 Heart");
 			Basket.BASKET_LIFE -= BOMB_DMG;
 			this.vanish();
 			if(Basket.BASKET_LIFE == 0){
 				basket.die();
-				System.out.println("LUH NAKA TATLONG BOMB AMP");
+				System.out.println("GAME OVER - 3 BOMBS CAUGHT");
 			}
 		}
 	}

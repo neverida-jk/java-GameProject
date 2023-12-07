@@ -11,7 +11,7 @@ import javafx.scene.image.Image;
  * Optionally, methods for gaining hearts or managing extra lives.
  */
 public class HeartsSystem extends Sprite {
-	private final static Image HEART_IMAGE = new Image("images/heart.png", 80, 80, false, false);
+	private final static Image HEART_IMAGE = new Image("images/heart.png", 100, 100, false, false);
 	private final static double INITIAL_POSX = 500;
 	private final static double INITIAL_POSY = 000;
 	

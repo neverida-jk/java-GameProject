@@ -33,7 +33,7 @@ class GameTimer extends AnimationTimer {
 	private ArrayList<FallingObject> objects;
 	private ArrayList<HeartsSystem> hearts;
 	private double backgroundY;
-	private Image background = new Image( "images/background.png", 1100, 800, false, false );
+	private Image background = new Image( "images/BG_Mountain.jpg", 1100, 800, false, false );
 	//private Image here = new Image("images/basket.jpg");
 	private long startSpawn;
 	private long startSpawnP;

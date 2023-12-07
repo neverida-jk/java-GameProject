@@ -25,7 +25,7 @@ public class Heart_PU extends FallingObject{
 		if(this.collidesWith(basket)){
 			if(Basket.BASKET_LIFE < 3) {//checks if basket life is less than 3
 				Basket.BASKET_LIFE++;//add a heart to the basket life
-				System.out.println(Basket.BASKET_LIFE + " ABA NASALO SWERTE ADD LIFE PA NGA");
+				System.out.println(Basket.BASKET_LIFE + " You caught the Heart! +1 Heart");
 				this.vanish();//vanish after collision
 			}
 			else {//if basket life equal 3 just gain points 

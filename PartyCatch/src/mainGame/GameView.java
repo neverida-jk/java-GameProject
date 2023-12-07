@@ -51,8 +51,8 @@ public class GameView {
 	static final int WINDOW_HEIGHT = 700;
 	static final int WINDOW_WIDTH = 800;
 	private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
-	private static final Image ABOUT_DEV = new Image("images/aboutPage.png",900,700,false,false); // <== DEV Pictures 
-	private static final Image INST_VIEW = new Image("images/instPage.png",900,700,false,false); // <== DEV Pictures
+	private static final Image ABOUT_DEV = new Image("images/underDev.png",900,700,false,false); // <== DEV Pictures 
+	private static final Image INST_VIEW = new Image("images/underDev.png",900,700,false,false); // <== DEV Pictures
 	static final String BGM_MAINMENU = "src/music/BGM_MainMenu.mp3"; //<== path to music
 	static final String BGM_STARTGAME = "src/music/BGM_Mountain.mp3"; //<== path to music
 	
@@ -157,15 +157,15 @@ public class GameView {
 		vbox.setSpacing(8);
 
 		// about Devs button graphics 
-		Image aboutDevs = new Image("images/aboutDevs.png", 400, 100, false, false);
+		Image aboutDevs = new Image("images/aboutDevelopers.png", 500, 200, false, false);
 		ImageView aboutView = new ImageView(aboutDevs);
 
 		//new Game button graphics
-		Image start = new Image("images/newGame.png", 500, 100, false, false);
+		Image start = new Image("images/playButton.png", 500, 200, false, false);
 		ImageView newGame = new ImageView(start);
 
 		// instructions button graphics 
-		Image instructions = new Image("images/instructions.png", 400, 100, false, false);
+		Image instructions = new Image("images/aboutGame.png", 500, 200, false, false);
 		ImageView instView = new ImageView(instructions);
 
 		//create buttons
