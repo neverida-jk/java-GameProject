@@ -7,7 +7,6 @@ package mainGame;
  * Manages the position and state of the basket.
  */
 
-import java.util.ArrayList;
 import javafx.scene.image.Image;
 
 public class Basket extends Sprite {
