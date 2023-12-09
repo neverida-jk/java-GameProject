@@ -108,11 +108,21 @@ class GameTimer extends AnimationTimer {
 		if(GameTimer.times != 0) {
 			this.drawTimer1(times, pUpNames);//bomb
 		}
-
-		if(!this.basket.isAlive()) {
+		
+		
+		if(!this.basket.isAlive() && this.basket.getScore() >= 1000) {
 			this.drawGameOver();		// draw Game Over text
 
 		}
+		else if(!this.basket.isAlive()) {
+			this.drawGameOver();
+		}
+		else {
+			if(this.basket.getScore() >= 1000) {
+				this.drawGameOver();
+			}
+		}
+		
 	}
 
 	void redrawBackgroundImage() {
@@ -331,10 +341,18 @@ class GameTimer extends AnimationTimer {
 
 	//(copied sa everwing)
 	private void drawGameOver(){
-		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-		this.gc.setFill(Color.WHITE);
-		this.gc.fillText("GAME OVER!", 20, GameView.WINDOW_HEIGHT/2);
-		GameView.mediaPlayer.stop();
+		if(basket.getScore() >= 20) {
+			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+			this.gc.setFill(Color.WHITE);
+			this.gc.fillText("WINNER!", 20, GameView.WINDOW_HEIGHT/2);
+			GameView.mediaPlayer.stop();
+		}
+		else {
+			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+			this.gc.setFill(Color.WHITE);
+			this.gc.fillText("GAME OVER!", 20, GameView.WINDOW_HEIGHT/2);
+			GameView.mediaPlayer.stop();
+		}
 		this.stop();
 
 	}

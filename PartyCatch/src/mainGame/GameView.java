@@ -111,6 +111,10 @@ public class GameView {
 		stage.setScene(scene);
 		music(BGM_STARTGAME);
 	}
+	
+	private void setMenu(Stage stage) {
+        stage.setScene(splashScene);
+	}
 
 	private void setAbout(Stage stage) {
 		stage.setScene(aboutScene);
@@ -197,9 +201,18 @@ public class GameView {
 	private Pane createAboutPane() {
 		Pane about = new Pane();
 		ImageView aboutImg = new ImageView(ABOUT_DEV); //<== for DEV graphic
+		
+		Image image = new Image("images/exitButton.png", 100, 50, false, false);
+        ImageView imageView = new ImageView(image);
+		
+		Button b1 = new Button();
+		b1.setGraphic(imageView);
+		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+		b1.setOnMouseClicked(event -> setMenu(stage));
+		b1.relocate(10, 10);
 
 
-		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg); //<== add on parameters all elements needed
+		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1); //<== add on parameters all elements needed
 		return about;
 	}
 	
@@ -207,9 +220,18 @@ public class GameView {
 		private Pane createInstPane() {
 			Pane inst = new Pane();
 			ImageView aboutImg = new ImageView(INST_VIEW); //<== for DEV graphic
+			
+			Image image = new Image("images/exitButton.png", 100, 50, false, false);
+	        ImageView imageView = new ImageView(image);
+			
+			Button b1 = new Button();//ito naman yung button para bumalik
+			b1.setGraphic(imageView);
+			b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+			b1.setOnMouseClicked(event -> setMenu(stage));//ginawa ko yung setMenu na func para bumalik sa simula same lang dun sa kabila
+			b1.relocate(10, 10);
 
 
-			inst.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg); //<== add on parameters all elements needed
+			inst.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1); //<== add on parameters all elements needed
 			return inst;
 		}
 }
