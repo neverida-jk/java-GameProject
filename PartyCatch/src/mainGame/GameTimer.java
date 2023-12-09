@@ -119,7 +119,7 @@ class GameTimer extends AnimationTimer {
 		}
 		else {
 			if(this.basket.getScore() >= 1000) {
-				this.drawGameOver();
+				this.drawGameOver();//may in-add akong cond dun sa function 
 			}
 		}
 		
