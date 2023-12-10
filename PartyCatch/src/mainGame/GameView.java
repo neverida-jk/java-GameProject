@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -35,6 +36,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GameView {
 	// Class attributes
@@ -51,8 +53,8 @@ public class GameView {
 	static final int WINDOW_HEIGHT = 700;
 	static final int WINDOW_WIDTH = 800;
 	private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
-	private static final Image ABOUT_DEV = new Image("images/underDev.png",900,700,false,false); // <== DEV Pictures 
-	private static final Image INST_VIEW = new Image("images/underDev.png",900,700,false,false); // <== DEV Pictures
+	private static final Image ABOUT_DEV = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures 
+	private static final Image INST_VIEW = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures
 	static final String BGM_MAINMENU = "src/music/BGM_MainMenu.mp3"; //<== path to music
 	static final String BGM_STARTGAME = "src/music/BGM_Mountain.mp3"; //<== path to music
 	
@@ -137,7 +139,7 @@ public class GameView {
 	// Initializes the splash screen, about screen, and instructions screen
 	private void initSplash(Stage stage) {
 		StackPane root = new StackPane();
-		root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),this.createVBox());
+		root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),this.createPane());
 		this.splashScene = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
 	}
 
@@ -155,28 +157,32 @@ public class GameView {
 
 
 	// for UI, such as buttons too
-	private VBox createVBox() {
-		VBox vbox = new VBox();
-		vbox.setAlignment(Pos.CENTER);
-		vbox.setSpacing(8);
+	private Pane createPane() {
+		Pane pane = new Pane();
+		
+		//game logo
+		Image logo = new Image("images/logoPartyCatch.png");
+		ImageView partyCatch = new ImageView(logo);
+		partyCatch.relocate(100, 50);
+		animation(partyCatch, 0, -30, true);
 
 		// about Devs button graphics 
-		Image aboutDevs = new Image("images/aboutDevelopers.png", 500, 200, false, false);
+		Image aboutDevs = new Image("images/aboutDevelopers.png", 250, 150, false, false);
 		ImageView aboutView = new ImageView(aboutDevs);
 
 		//new Game button graphics
-		Image start = new Image("images/playButton.png", 500, 200, false, false);
+		Image start = new Image("images/playButton.png", 450, 200, false, false);
 		ImageView newGame = new ImageView(start);
 
 		// instructions button graphics 
-		Image instructions = new Image("images/aboutGame.png", 500, 200, false, false);
+		Image instructions = new Image("images/aboutGame.png", 350, 150, false, false);
 		ImageView instView = new ImageView(instructions);
 
 		//create buttons
 		Button b1 = new Button(); //<= button for aboutDevs
 		Button b2 = new Button(); //<= button for newGame
-		Button b3 = new Button(); //<= button for instructions
-
+		Button b3 = new Button(); //<= button for instruction
+		
 		// set graphics for button
 		b1.setGraphic(aboutView);
 		b2.setGraphic(newGame);
@@ -191,16 +197,24 @@ public class GameView {
 		b1.setOnMouseClicked(event -> setAbout(stage));
 		b2.setOnMouseClicked(event -> setGame(stage));
 		b3.setOnMouseClicked(event -> setInst(stage));
+		
+		//button positioning
+		b1.relocate(270, 500); //(x,y)
+		b2.relocate(170, 250);
+		b3.relocate(220, 400);
+		
+		pane.getChildren().addAll(partyCatch,b2,b3,b1); //<== add on parameters all of the Pane elements
 
-		vbox.getChildren().addAll(b2,b3,b1); //<== add on parameters all of the VBox elements
-
-		return vbox;
+		return pane;
 	}
 
 	// for about developer page
 	private Pane createAboutPane() {
 		Pane about = new Pane();
 		ImageView aboutImg = new ImageView(ABOUT_DEV); //<== for DEV graphic
+		ImageView instructions = new ImageView(INST_VIEW);
+		instructions.relocate(0, 700);
+		
 		
 		Image image = new Image("images/exitButton.png", 100, 50, false, false);
         ImageView imageView = new ImageView(image);
@@ -212,7 +226,7 @@ public class GameView {
 		b1.relocate(10, 10);
 
 
-		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1); //<== add on parameters all elements needed
+		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1, instructions); //<== add on parameters all elements needed
 		return about;
 	}
 	
@@ -233,5 +247,17 @@ public class GameView {
 
 			inst.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1); //<== add on parameters all elements needed
 			return inst;
+		}
+		
+		//animation for logo
+		void animation(ImageView image, int x, int y, boolean reverse) {
+			TranslateTransition translate = new TranslateTransition();
+			translate.setNode(image);
+			translate.setDuration(Duration.millis(1000));
+			translate.setCycleCount(TranslateTransition.INDEFINITE);
+			translate.setAutoReverse(reverse);
+			translate.setByX(x);
+			translate.setByY(y);
+			translate.play();
 		}
 }

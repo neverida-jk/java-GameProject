@@ -38,4 +38,11 @@ public class Pineapple extends FallingObject {
 		}
 	}
 
+	@Override
+	boolean isPowerUp() {
+		return false;
+	}
+
+
+
 }

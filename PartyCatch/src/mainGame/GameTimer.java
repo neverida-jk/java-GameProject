@@ -1,16 +1,19 @@
 package mainGame;
 
+import application.Main;
 import java.util.*;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 /* 
  * 	What for:
@@ -28,6 +31,7 @@ class GameTimer extends AnimationTimer {
 	private Basket basket;
 	private SlowFallingObjects SFOT;
 	private Scene scene;
+	private Stage stage;
 	private static boolean goLeft;
 	private static boolean goRight;
 	private ArrayList<FallingObject> objects;
@@ -65,8 +69,8 @@ class GameTimer extends AnimationTimer {
 	public final static int BACKGROUND_SPEED = 0;
 	public static double SPAWN_DELAY = 1;//initial delay bago lumabas yung unang banana pic
 	public static double SPAWN_DELAY_HEART = 25; //delay bago lumabas yung unang heart pic
-	public static double SPAWN_DELAY_SFO = 20; 
-	public static double SPAWN_DELAY_DOUBLE = 30;//delay bago lumabas yung unang double score pic
+	public static double SPAWN_DELAY_SFO = 2; 
+	public static double SPAWN_DELAY_DOUBLE = 1;//delay bago lumabas yung unang double score pic
 	public static double SPAWN_DELAY_B = 3;//delay bago lumabas yung unang bomb pic
 	public static double SPAWN_DELAY_P = 10;//delay bago lumabas yung unang pineapple pic
 	public static double SPAWN_DELAY_A = 6;//delay bago lumabas yung unang apple pic
@@ -108,8 +112,7 @@ class GameTimer extends AnimationTimer {
 		if(GameTimer.times != 0) {
 			this.drawTimer1(times, pUpNames);//bomb
 		}
-		
-		
+
 		if(!this.basket.isAlive() && this.basket.getScore() >= 1000) {
 			this.drawGameOver();		// draw Game Over text
 
@@ -117,13 +120,8 @@ class GameTimer extends AnimationTimer {
 		else if(!this.basket.isAlive()) {
 			this.drawGameOver();
 		}
-		else {
-			if(this.basket.getScore() >= 1000) {
-				this.drawGameOver();//may in-add akong cond dun sa function 
-			}
-		}
-		
 	}
+
 
 	void redrawBackgroundImage() {
 		// clear the canvas
@@ -329,23 +327,24 @@ class GameTimer extends AnimationTimer {
 
 	void drawTimer(int time, String name){
 		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-		this.gc.setFill(Color.YELLOW);
-		this.gc.fillText(name + time + "s left.", 20, 100);
+		this.gc.setFill(Color.BLUE);
+		this.gc.fillText(name + time + "s left.", 20, 60);
 	}
 
 	void drawTimer1(int time, String name){
 		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-		this.gc.setFill(Color.YELLOW);
-		this.gc.fillText(name + time + "s left.", 20, 120);
+		this.gc.setFill(Color.BLUE);
+		this.gc.fillText(name + time + "s left.", 20, 80);
 	}
 
 	//(copied sa everwing)
 	private void drawGameOver(){
-		if(basket.getScore() >= 20) {
+		if(basket.getScore() >= 1000) {
 			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
 			this.gc.setFill(Color.WHITE);
 			this.gc.fillText("WINNER!", 20, GameView.WINDOW_HEIGHT/2);
 			GameView.mediaPlayer.stop();
+
 		}
 		else {
 			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
@@ -365,6 +364,7 @@ class GameTimer extends AnimationTimer {
 	private void moveObjects() {
 		for(int i = 0; i < this.objects.size(); i++){
 			FallingObject m = this.objects.get(i);
+
 			if(m.isVisible()){
 				m.move();
 				m.checkCollision(basket);
@@ -457,7 +457,4 @@ class GameTimer extends AnimationTimer {
 			this.objects.add(new Apple(x,y));// adds an instance of apple   in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
-
-
-
 }

@@ -19,7 +19,7 @@ public class Apple extends FallingObject {
 			this.vanish();
 		}
 	}
-
+	
 	@Override
 	void checkCollision(Basket basket) {
 		if(this.collidesWith(basket)){
@@ -36,5 +36,13 @@ public class Apple extends FallingObject {
 			}
 		}
 	}
+
+	@Override
+	boolean isPowerUp() {
+		return false;
+		
+	}
+
+
 
 }

@@ -40,4 +40,11 @@ public class Heart_PU extends FallingObject{
 		}
 	}
 
+	@Override
+	boolean isPowerUp() {
+		return true;
+	}
+
+
+
 }

@@ -1,13 +1,19 @@
 package mainGame;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 
 class DoubleScore extends FallingObject{
 	private DoubleScoreTimer timer;
 	private final static int SPEED = 7;
-	private final static Image IMAGE = new Image("images/doubleScore.png",120,120,false,false);
-	//private final static int GAIN = 10;
+	final static Image IMAGE = new Image("images/doubleScore.png",120,120,false,false);
+	private final static ImageView image = new ImageView(IMAGE);
 	private static final int DMG = 1;
 	private boolean isActivated;
 
@@ -16,14 +22,6 @@ class DoubleScore extends FallingObject{
 		this.speed = DoubleScore.SPEED;
 		this.isActivated = false;
 	}
-
-	/*
-	void move(){
-		this.yPos += DoubleScore.SPEED;
-		if(this.yPos >= GameView.WINDOW_HEIGHT){	// if this monster passes through the bottom of the scene, set visible to false
-			this.vanish();
-		}
-	}*/
 
 	void activate(){
 		if(!this.isActivated){
@@ -44,14 +42,18 @@ class DoubleScore extends FallingObject{
 		Apple.GAIN /= 2;
 		Pineapple.GAIN /= 2;	
 	}
-
-
-
+	
 	void checkCollision(Basket basket) {
 		if(this.collidesWith(basket)){
 			activate();
 			this.vanish();
 		}
+	}
+
+
+	@Override
+	boolean isPowerUp() {
+		return true;
 	}
 
 }

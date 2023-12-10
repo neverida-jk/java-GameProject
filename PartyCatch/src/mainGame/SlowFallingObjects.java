@@ -15,9 +15,9 @@ public class SlowFallingObjects extends FallingObject{
 	//private DoubleScoreTimer timer;
 	private SlowFallingObjectsTimer timer;
 	private final static int SPEED = 7;
-	private final static Image IMAGE = new Image("images/poisonCatch.png",120,120,false,false);
+	final static Image IMAGE = new Image("images/poisonCatch.png",120,120,false,false);
 	//private final static int GAIN = 10;
-	private static final int DMG = 1;
+	//private static final int DMG = 1;
 	private boolean isActivated;
 	
 	SlowFallingObjects(double xPos, double yPos){
@@ -51,12 +51,10 @@ public class SlowFallingObjects extends FallingObject{
 	void activate(){
 		if(!this.isActivated){
 			die();
-			//this.isActivated = true;
+			this.isActivated = true;
 			this.timer = new SlowFallingObjectsTimer(this);
 			this.timer.start();
 			System.out.println("SLOW MO ACTIVATED FOR 10 SECONDS!");
-			//this.speed = 100;
-			//Banana.BANANA_SPEED = Apple.APPLE_SPEED = Pineapple.PINEAPPLE_SPEED -= 2;
 			Bomb.BOMB_SPEED -=6;
 		}else this.timer.refresh();
 	}
@@ -65,10 +63,6 @@ public class SlowFallingObjects extends FallingObject{
 		this.isActivated = false;
 		System.out.println("SLOW MO DE-ACTIVATED!");
 		Bomb.BOMB_SPEED +=6;
-		//Banana.BANANA_SPEED = Apple.APPLE_SPEED = Pineapple.PINEAPPLE_SPEED += 1;
-		//Banana.BANANA_SPEED = 3;
-		//Apple.APPLE_SPEED = 7;
-		//Pineapple.PINEAPPLE_SPEED = 5;
 	}
 
 
@@ -78,6 +72,11 @@ public class SlowFallingObjects extends FallingObject{
 			activate();
 			this.vanish();
 		}
+	}
+
+	@Override
+	boolean isPowerUp() {
+		return true;
 	}
 
 }

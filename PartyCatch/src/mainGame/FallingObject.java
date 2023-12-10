@@ -26,4 +26,5 @@ abstract class FallingObject extends Sprite {
 	}
 
 	abstract void checkCollision(Basket basket);
+	abstract boolean isPowerUp();
 }

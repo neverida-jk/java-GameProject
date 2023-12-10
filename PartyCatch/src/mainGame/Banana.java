@@ -38,4 +38,12 @@ class Banana extends FallingObject {
 		}
 	}
 
+	@Override
+	boolean isPowerUp() {
+
+		return false;
+	}
+
+
+
 }
