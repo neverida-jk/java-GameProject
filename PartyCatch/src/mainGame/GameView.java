@@ -17,8 +17,11 @@ import java.nio.file.Paths;
 
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-
+import javafx.scene.Node;
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -52,11 +55,11 @@ public class GameView {
 	// Constants for window dimensions and assets
 	static final int WINDOW_HEIGHT = 700;
 	static final int WINDOW_WIDTH = 800;
-	private static final int INSTRUCTION_WINDOW_HEIGHT = 900;
+	private static final Image ICON = new Image("images/CLogo.png");
 	private static final Image ABOUT_DEV = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures 
 	private static final Image INST_VIEW = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures
 	static final String BGM_MAINMENU = "src/music/BGM_MainMenu.mp3"; //<== path to music
-	static final String BGM_STARTGAME = "src/music/BGM_Mountain.mp3"; //<== path to music
+	static final String BGM_STARTGAME = "src/music/BGM_IndoorPlayGround.mp3"; //<== path to music
 	
 	
 	// Fonts and colors
@@ -90,6 +93,7 @@ public class GameView {
 
 		this.stage.setScene(this.splashScene);
 		this.stage.setResizable(false);
+		stage.getIcons().add(ICON);
 		music(BGM_MAINMENU);
 		
 		this.stage.show();
@@ -187,6 +191,11 @@ public class GameView {
 		b1.setGraphic(aboutView);
 		b2.setGraphic(newGame);
 		b3.setGraphic(instView);
+		
+		//set animation; fade in and out
+		b1.setSkin(new ButtonAnim(b1));
+		b2.setSkin(new ButtonAnim(b2));
+		b3.setSkin(new ButtonAnim(b3));
 
 		//button styling
 		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
@@ -221,6 +230,7 @@ public class GameView {
 		
 		Button b1 = new Button();
 		b1.setGraphic(imageView);
+		b1.setSkin(new ButtonAnim(b1));
 		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
 		b1.setOnMouseClicked(event -> setMenu(stage));
 		b1.relocate(10, 10);
@@ -240,6 +250,7 @@ public class GameView {
 			
 			Button b1 = new Button();//ito naman yung button para bumalik
 			b1.setGraphic(imageView);
+			b1.setSkin(new ButtonAnim(b1));
 			b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
 			b1.setOnMouseClicked(event -> setMenu(stage));//ginawa ko yung setMenu na func para bumalik sa simula same lang dun sa kabila
 			b1.relocate(10, 10);

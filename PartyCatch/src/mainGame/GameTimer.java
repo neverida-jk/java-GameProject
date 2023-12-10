@@ -3,7 +3,9 @@ package mainGame;
 import application.Main;
 import java.util.*;
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -14,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /* 
  * 	What for:
@@ -53,6 +56,7 @@ class GameTimer extends AnimationTimer {
 	private int spawnDoubleCount;
 	private int spawnSFOCount;
 	private int spawnHeartCount;
+	private int newBg;
 	public static int time;
 	public static String pUpName;
 	public static int times;
@@ -69,10 +73,10 @@ class GameTimer extends AnimationTimer {
 	public final static int BACKGROUND_SPEED = 0;
 	public static double SPAWN_DELAY = 1;//initial delay bago lumabas yung unang banana pic
 	public static double SPAWN_DELAY_HEART = 25; //delay bago lumabas yung unang heart pic
-	public static double SPAWN_DELAY_SFO = 2; 
-	public static double SPAWN_DELAY_DOUBLE = 1;//delay bago lumabas yung unang double score pic
+	public static double SPAWN_DELAY_SFO = 22; 
+	public static double SPAWN_DELAY_DOUBLE = 29;//delay bago lumabas yung unang double score pic
 	public static double SPAWN_DELAY_B = 3;//delay bago lumabas yung unang bomb pic
-	public static double SPAWN_DELAY_P = 10;//delay bago lumabas yung unang pineapple pic
+	public static double SPAWN_DELAY_P = 9;//delay bago lumabas yung unang pineapple pic
 	public static double SPAWN_DELAY_A = 6;//delay bago lumabas yung unang apple pic
 	public final static int SPAWN_NUM_HEART = 1;//spawn 1 time only every time
 	public final static int SPAWN_NUM_BOMB = 1;
@@ -126,17 +130,8 @@ class GameTimer extends AnimationTimer {
 	void redrawBackgroundImage() {
 		// clear the canvas
 		this.gc.clearRect(0, 0, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
-
-
-
-		// redraw background image (moving effect)
-		this.backgroundY += GameTimer.BACKGROUND_SPEED;
-
-		this.gc.drawImage( background, 0, this.backgroundY-this.background.getHeight() );
 		this.gc.drawImage( background, 0, this.backgroundY );
 
-		if(this.backgroundY>=GameView.WINDOW_HEIGHT) 
-			this.backgroundY = GameView.WINDOW_HEIGHT-this.background.getHeight();
 	}
 
 	void AutoSpawn(Long currentNanoTime){
@@ -389,7 +384,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < spawnNumHeart;i++) { // loops through each instance of banana
 			int y = -600;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//random x location to start
 			this.objects.add(new Heart_PU(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
@@ -399,7 +394,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < spawnNumSFO;i++) { // loops through each instance of banana
 			int y = -600;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//random x location to start
 			this.objects.add(new SlowFallingObjects(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
@@ -409,7 +404,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < spawnNumDouble;i++) { // loops through each instance of banana
 			int y = -640;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//random x location to start
 			this.objects.add(new DoubleScore(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
@@ -420,7 +415,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < numberOfBOMB;i++) { // loops through each instance of banana
 			int y = -600;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//random x location to start
 			this.objects.add(new Bomb(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
@@ -431,7 +426,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < numberOfBANANA;i++) { // loops through each instance of banana
 			int y = -600;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//random x location to start
 			this.objects.add(new Banana(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
@@ -442,7 +437,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < numberOfPINEAPPLE;i++) { // loops through each instance of pineapple
 			int y = -600;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//r.nextInt((WIDTH_PER_OBJECT_PINEAPPLE * GameView.WINDOW_HEIGHT)/500); random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//r.nextInt((WIDTH_PER_OBJECT_PINEAPPLE * GameView.WINDOW_HEIGHT)/500); random x location to start
 			this.objects.add(new Pineapple(x,y)); // adds an instance of pineapple in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
@@ -453,7 +448,7 @@ class GameTimer extends AnimationTimer {
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < numberOfAPPLE;i++) { // loops through each instance of apple
 			int y = -600;//to start at the very top
-			int x = r.nextInt(GameView.WINDOW_WIDTH - 90);//r.nextInt((WIDTH_PER_OBJECT_BANANA * GameView.WINDOW_HEIGHT)/500); random x location to start
+			int x = r.nextInt(GameView.WINDOW_WIDTH - 120);//r.nextInt((WIDTH_PER_OBJECT_BANANA * GameView.WINDOW_HEIGHT)/500); random x location to start
 			this.objects.add(new Apple(x,y));// adds an instance of apple   in the array list of falling objects, adds more to renderSprites() method
 		}
 	}
