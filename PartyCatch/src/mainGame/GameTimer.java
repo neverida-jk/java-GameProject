@@ -63,7 +63,7 @@ class GameTimer extends AnimationTimer {
 	public static String pUpNames;
 	public static Random r = new Random();
 
-
+	public final static int winningScore = 1000; //<= edit this for score winning condition
 	public final static int MIN_OBJECT = 2;
 	public final static int MAX_OBJECT = 5;
 	public final static int OBJECT_TYPES = 3;
@@ -117,13 +117,10 @@ class GameTimer extends AnimationTimer {
 			this.drawTimer1(times, pUpNames);//bomb
 		}
 
-		if(!this.basket.isAlive() && this.basket.getScore() >= 1000) {
+		if(!this.basket.isAlive() || this.basket.getScore() >= this.winningScore) {
 			this.drawGameOver();		// draw Game Over text
+		}
 
-		}
-		else if(!this.basket.isAlive()) {
-			this.drawGameOver();
-		}
 	}
 
 
@@ -334,7 +331,7 @@ class GameTimer extends AnimationTimer {
 
 	//(copied sa everwing)
 	private void drawGameOver(){
-		if(basket.getScore() >= 1000) {
+		if(basket.getScore() >= this.winningScore) {
 			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
 			this.gc.setFill(Color.WHITE);
 			this.gc.fillText("WINNER!", 20, GameView.WINDOW_HEIGHT/2);
