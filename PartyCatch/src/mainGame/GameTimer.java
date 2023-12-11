@@ -122,6 +122,7 @@ class GameTimer extends AnimationTimer {
 		this.moveSprites();
 
 		this.drawScore();
+		this.HEARTOVER();
 		
 		if(GameTimer.time != 0) {
 			this.drawTimer(time, pUpName);//double point
@@ -340,6 +341,33 @@ class GameTimer extends AnimationTimer {
 		this.gc.setFont(Font.font("Old English Text MT", FontWeight.BOLD, 20));
 		this.gc.setFill(Color.WHITE);
 		this.gc.fillText(name + time + "s left.", 20, 140);
+	}
+	
+private void HEARTOVER(){//////itoo paedit na lang nung pwesto pero nagana naman
+        
+		if(Basket.BASKET_LIFE == 3) {
+			Image HHH = new Image("images/heart.png", 150, 100, false, false);
+			Image HH = new Image("images/heart.png", 160, 100, false, false);
+			Image H = new Image("images/heart.png", 170, 100, false, false);
+			this.gc.drawImage(HHH, 150, 100);
+			this.gc.drawImage(HH, 160, 100);
+			this.gc.drawImage(H, 170, 100);
+		}
+		else if(Basket.BASKET_LIFE == 2) {
+			Image HHH = new Image("images/heart.png", 150, 100, false, false);
+			Image HH = new Image("images/heart.png", 160, 100, false, false);
+			Image H = new Image("images/heart.png", 170, 100, false, false);
+			this.gc.drawImage(HHH, 150, 100);
+			this.gc.drawImage(HH, 160, 100);
+		}
+		else if(Basket.BASKET_LIFE == 1) {
+			Image HHH = new Image("images/heart.png", 150, 100, false, false);
+			Image HH = new Image("images/heart.png", 160, 100, false, false);
+			Image H = new Image("images/heart.png", 170, 100, false, false);
+			this.gc.drawImage(HHH, 150, 100);
+		}
+			
+
 	}
 
 	//
