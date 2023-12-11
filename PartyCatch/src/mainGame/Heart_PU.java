@@ -8,8 +8,8 @@ package mainGame;
 import javafx.scene.image.Image;
 public class Heart_PU extends FallingObject{
 	
-	private final static int HEART_SPEED = 7;//Constant for the speed of the heart power-up
-	private final static Image HEART_IMAGE = new Image("images/heart.png"); //Image object representing the heart graphic
+	private final static int HEART_SPEED = 5;//Constant for the speed of the heart power-up
+	private final static Image HEART_IMAGE = new Image("images/heart.png", 100, 100, false, false); //Image object representing the heart graphic
 	private final static int GAIN = 10; // Score point if basket has max hearts
 	// No score penalty if heart is not caught
 

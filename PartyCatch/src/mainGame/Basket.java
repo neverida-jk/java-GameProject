@@ -15,7 +15,7 @@ public class Basket extends Sprite {
 	// Image representing the Basket
 	private final static Image BASKET_IMAGE = new Image("images/basket.png", 150, 100, false, false);
 	// Initial position of the Basket
-	private final static double INITIAL_POSX = 300;
+	private final static double INITIAL_POSX = 340;
 	private final static double INITIAL_POSY = 600;
 	// Speed at which the Basket moves
 	static int BASKET_SPEED = 20;

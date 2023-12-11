@@ -14,6 +14,7 @@ import application.Main;
 import java.util.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,8 +24,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -41,7 +44,7 @@ class GameTimer extends AnimationTimer {
 	private ArrayList<FallingObject> objects;	// Array list to store falling objects
 	private ArrayList<HeartsSystem> hearts;	// Array list to store heart objects
 	private double backgroundY;
-	private Image background = new Image( "images/BG_Mountain.jpg", 1100, 800, false, false );
+	private Image background = new Image( "images/BG_Mountain.jpg", 800, 700, false, false );
 
 	// Time variables for spawning objects
 	private long startSpawn;
@@ -119,6 +122,7 @@ class GameTimer extends AnimationTimer {
 		this.moveSprites();
 
 		this.drawScore();
+		
 		if(GameTimer.time != 0) {
 			this.drawTimer(time, pUpName);//double point
 		}
@@ -314,45 +318,56 @@ class GameTimer extends AnimationTimer {
 
 	}
 
-	//score on upper left (copied sa everwing)
+	//scoreBoard on upper left
 	private void drawScore(){
-		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-		this.gc.setFill(Color.YELLOW);
-		this.gc.fillText("Score:", 20, 30);
-		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+		Image scoreBoard = new Image("images/scoreboard.png",200, 100, false, false);
+		this.gc.drawImage(scoreBoard, 0, 0);
+		this.gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
 		this.gc.setFill(Color.WHITE);
-		this.gc.fillText(basket.getScore()+"", 90, 30);
-		this.gc.setFont(Font.font("Comic sans MS", FontWeight.BOLD, 50));
+		this.gc.fillText(basket.getScore()+"", 80, 60);
+		this.gc.setFont(Font.font("Lucida Calligraphy", FontWeight.BOLD, 50));
 		this.gc.setFill(Color.RED);
 		this.gc.fillText(Basket.BASKET_LIFE+"", 660, 60);
 	}
 
 	void drawTimer(int time, String name){
-		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-		this.gc.setFill(Color.BLUE);
-		this.gc.fillText(name + time + "s left.", 20, 60);
+		this.gc.setFont(Font.font("Old English Text MT", FontWeight.BOLD, 20));
+		this.gc.setFill(Color.WHITE);
+		this.gc.fillText(name + time + "s left.", 20, 120);
 	}
 
 	void drawTimer1(int time, String name){
-		this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-		this.gc.setFill(Color.BLUE);
-		this.gc.fillText(name + time + "s left.", 20, 80);
+		this.gc.setFont(Font.font("Old English Text MT", FontWeight.BOLD, 20));
+		this.gc.setFill(Color.WHITE);
+		this.gc.fillText(name + time + "s left.", 20, 140);
 	}
 
-	//(copied sa everwing)
+	//
 	private void drawGameOver(){
-		if(basket.getScore() >= this.winningScore) {
-			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
-			this.gc.setFill(Color.WHITE);
-			this.gc.fillText("WINNER!", 20, GameView.WINDOW_HEIGHT/2);
+        
+		if(basket.getScore() >= GameTimer.winningScore) {
+			Image winner = new Image("images/winnerBG.png", 200, 200, false, false);
+			this.gc.drawImage(winner, 0, 0);
+			
+			Image winner2 = new Image("images/winner.png", 450, 200, false, false);
+			this.gc.drawImage(winner2, 200, 180);
+			
 			GameView.mediaPlayer.stop();
-
 		}
 		else {
-			this.gc.setFont(Font.font("Verdana", FontWeight.BOLD, 50));
+			Image gameOver = new Image("images/loseR.png");
+			this.gc.drawImage(gameOver, 90, 100);
+			
+			this.gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
 			this.gc.setFill(Color.WHITE);
-			this.gc.fillText("GAME OVER!", 20, GameView.WINDOW_HEIGHT/2);
+			this.gc.fillText("Score: "+ basket.getScore(), 330, 420);
+			
 			GameView.mediaPlayer.stop();
+			/*
+			Image gameOver = new Image("images/gameOver.png");
+			this.gc.drawImage(gameOver, 130, 180);
+			GameView.mediaPlayer.stop();
+			*/
 		}
 		this.stop();
 

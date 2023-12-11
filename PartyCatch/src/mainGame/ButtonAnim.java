@@ -11,7 +11,7 @@ import javafx.util.Duration;
 public class ButtonAnim extends ButtonSkin {
 
 	// Constructor for the ButtonAnim class
-    public ButtonAnim(Button control) {
+    public ButtonAnim(Button control, double outTime) {
 		super(control);
 
 		// Create fade-in transition for the button
@@ -24,7 +24,7 @@ public class ButtonAnim extends ButtonSkin {
         // Create fade-out transition for the button
         final FadeTransition fadeOut = new FadeTransition(Duration.millis(100));
         fadeOut.setNode(control);
-        fadeOut.setToValue(0.5);
+        fadeOut.setToValue(outTime);
         // Play fade-out transition on mouse exit
         control.setOnMouseExited(e -> fadeOut.playFromStart());
 

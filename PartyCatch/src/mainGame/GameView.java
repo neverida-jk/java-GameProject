@@ -43,6 +43,7 @@ import javafx.util.Duration;
 
 public class GameView {
 	// Class attributes
+	private Scene initialGame;
 	private Scene scene;
 	private Scene splashScene;		// the splash scene
 	private Scene aboutScene; 		// about developers scene
@@ -56,7 +57,7 @@ public class GameView {
 	static final int WINDOW_HEIGHT = 700;
 	static final int WINDOW_WIDTH = 800;
 	private static final Image ICON = new Image("images/CLogo.png");
-	private static final Image ABOUT_DEV = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures 
+	//private static final Image ABOUT_DEV = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures 
 	private static final Image INST_VIEW = new Image("images/aboutGame1.png",800,700,false,false); // <== DEV Pictures
 	static final String BGM_MAINMENU = "src/music/BGM_MainMenu.mp3"; //<== path to music
 	static final String BGM_STARTGAME = "src/music/BGM_IndoorPlayGround.mp3"; //<== path to music
@@ -90,6 +91,7 @@ public class GameView {
 		this.initSplash(stage);
 		this.initAbout(stage);
 		this.initInst(stage);
+		this.initInitialG(stage);
 
 		this.stage.setScene(this.splashScene);
 		this.stage.setResizable(false);
@@ -116,6 +118,10 @@ public class GameView {
 		gameTimer.start();
 		stage.setScene(scene);
 		music(BGM_STARTGAME);
+	}
+	
+	private void setInitialG (Stage stage) {
+		stage.setScene(initialGame);
 	}
 	
 	//Sets the stage to the splash screen
@@ -162,6 +168,11 @@ public class GameView {
 		root.setContent(this.createInstPane());
 	}
 
+	private void initInitialG(Stage stage) {
+		StackPane root = new StackPane();
+		root.getChildren().addAll(this.createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT),this.createNewGame());
+		this.initialGame = new Scene(root,GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+	}
 
 	// for UI, such as buttons too
 	private Pane createPane() {
@@ -196,9 +207,9 @@ public class GameView {
 		b3.setGraphic(instView);
 		
 		//set animation; fade in and out
-		b1.setSkin(new ButtonAnim(b1));
-		b2.setSkin(new ButtonAnim(b2));
-		b3.setSkin(new ButtonAnim(b3));
+		b1.setSkin(new ButtonAnim(b1, 0.5));
+		b2.setSkin(new ButtonAnim(b2, 0.5));
+		b3.setSkin(new ButtonAnim(b3, 0.5));
 
 		//button styling
 		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
@@ -207,7 +218,7 @@ public class GameView {
 
 		//function on button click
 		b1.setOnMouseClicked(event -> setAbout(stage));
-		b2.setOnMouseClicked(event -> setGame(stage));
+		b2.setOnMouseClicked(event -> setInitialG(stage));
 		b3.setOnMouseClicked(event -> setInst(stage));
 		
 		//button positioning
@@ -219,27 +230,64 @@ public class GameView {
 
 		return pane;
 	}
+	
+	private Pane createNewGame() {
+		Pane inst = new Pane();
+		Image initialG = new Image("images/BG_Mountain.jpg", 800, 700, false, false);
+		ImageView aboutImg = new ImageView(initialG); //<== for DEV graphic
+		
+		Image image1 = new Image("images/exitButton.png", 100, 50, false, false);
+        ImageView imageView1 = new ImageView(image1);
+        
+        Image image2 = new Image("images/startGame.png", 200, 200, false, false);
+        ImageView imageView2 = new ImageView(image2);
+        animation(imageView2, 0, -10, true);
+		
+		Button b1 = new Button();// button for going back
+		b1.setGraphic(imageView1);
+		b1.setSkin(new ButtonAnim(b1, 0.5));
+		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+		b1.setOnMouseClicked(event -> setMenu(stage));// setMenu function used to redirect to Main Menu
+		b1.relocate(10, 10);
+		
+		Button b2 = new Button();// button for starting game
+		b2.setGraphic(imageView2);
+		b2.setSkin(new ButtonAnim(b2, 0.9));
+		b2.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
+		b2.setOnMouseClicked(event -> setGame(stage));// setMenu function used to redirect to Main Menu
+		b2.relocate(300, 400);
+
+
+		inst.getChildren().addAll(aboutImg,b1,b2); //<== add on parameters all elements needed
+		return inst;
+	}
 
 	// for about developer page
 	private Pane createAboutPane() {
 		Pane about = new Pane();
-		ImageView aboutImg = new ImageView(ABOUT_DEV); //<== for DEV graphic
-		ImageView instructions = new ImageView(INST_VIEW);
-		instructions.relocate(0, 700);
+		Image oneP = new Image("images/devz1.png",800,700,false,false);
+		ImageView pOne = new ImageView(oneP); //<== for DEV graphic
+		Image twoP = new Image("images/devz2.png",800,700,false,false);
+		ImageView pTwo = new ImageView(twoP);
+		pTwo.relocate(0, 700);
 		
+		Image devz = new Image("images/devs.png");
+		ImageView dev = new ImageView(devz);
+		dev.relocate(0,-150);
+		animation(dev, 0, -10, true);
 		
 		Image image = new Image("images/exitButton.png", 100, 50, false, false);
         ImageView imageView = new ImageView(image);
 		
 		Button b1 = new Button();
 		b1.setGraphic(imageView);
-		b1.setSkin(new ButtonAnim(b1));
+		b1.setSkin(new ButtonAnim(b1, 0.5));
 		b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
 		b1.setOnMouseClicked(event -> setMenu(stage));
 		b1.relocate(10, 10);
 
 
-		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1, instructions); //<== add on parameters all elements needed
+		about.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), pOne,b1, pTwo, dev); //<== add on parameters all elements needed
 		return about;
 	}
 	
@@ -253,7 +301,7 @@ public class GameView {
 			
 			Button b1 = new Button();// button for going back
 			b1.setGraphic(imageView);
-			b1.setSkin(new ButtonAnim(b1));
+			b1.setSkin(new ButtonAnim(b1, 0.5));
 			b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
 			b1.setOnMouseClicked(event -> setMenu(stage));// setMenu function used to redirect to Main Menu
 			b1.relocate(10, 10);
