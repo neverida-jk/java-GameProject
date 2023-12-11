@@ -56,6 +56,10 @@ public class Apple extends FallingObject {
 		return false;
 		
 	}
+	
+	static void upgrade() {
+		Apple.APPLE_SPEED += 5;
+	}
 
 
 

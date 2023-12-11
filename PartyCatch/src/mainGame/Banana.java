@@ -47,5 +47,8 @@ class Banana extends FallingObject {
 	}
 
 
+	static void upgrade() {
+		Banana.BANANA_SPEED += 5;
+	}
 
 }

@@ -57,5 +57,8 @@ public class Pineapple extends FallingObject {
 	}
 
 
+	static void upgrade() {
+		Pineapple.PINEAPPLE_SPEED += 5;
+	}
 
 }

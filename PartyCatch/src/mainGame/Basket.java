@@ -12,8 +12,6 @@ public class Basket extends Sprite {
 	private boolean alive;
 	private int score;
 
-	// Image representing the Basket
-	private final static Image BASKET_IMAGE = new Image("images/basket.png", 150, 100, false, false);
 	// Initial position of the Basket
 	private final static double INITIAL_POSX = 340;
 	private final static double INITIAL_POSY = 600;
@@ -22,10 +20,11 @@ public class Basket extends Sprite {
 	public static int BASKET_LIFE = 3; // Number of lives for the Basket
 
 	// Constructor for the Basket class
-	Basket(String name){
-		super(Basket.INITIAL_POSX, Basket.INITIAL_POSY,Basket.BASKET_IMAGE);
+	Basket(String name, Image image, int score){
+		super(Basket.INITIAL_POSX, Basket.INITIAL_POSY, image);
 		this.name = name;
 		this.alive = true;
+		this.score = score;
 	}
 
 	//Name of Basket Character
@@ -46,6 +45,10 @@ public class Basket extends Sprite {
 	//Sets the Basket Character as dead
 	void die(){
 		this.alive = false;
+	}
+	
+	boolean isUpgraded() {
+		return false;
 	}
 	
 	//add score

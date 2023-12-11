@@ -143,7 +143,7 @@ public class GameView {
 	private Canvas createCanvas(int width, int height) {
 		Canvas canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		Image bg = new Image("images/BG_MainMenu.jpg"); //<-- need at least 700x800 for bg image
+		Image bg = new Image("images/BG_BeachFrontSide.jpg", 1300, 800, false, false); //<-- need at least 700x800 for bg image
         double xOffset = -250;
         gc.drawImage(bg, xOffset, 0);
 		return canvas;     
@@ -294,7 +294,20 @@ public class GameView {
 	// for instructions page
 		private Pane createInstPane() {
 			Pane inst = new Pane();
-			ImageView aboutImg = new ImageView(INST_VIEW); //<== for DEV graphic
+			Image oneP = new Image("images/about1.png",800,700,false,false);
+			ImageView pOne = new ImageView(oneP); //<== for DEV graphic
+			Image twoP = new Image("images/about2.png",800,700,false,false);
+			ImageView pTwo = new ImageView(twoP);
+			pTwo.relocate(0, 700);
+			Image threeP = new Image("images/about3.png",800,700,false,false);
+			ImageView pThree= new ImageView(threeP);
+			pThree.relocate(0, 1400);
+			Image fourP = new Image("images/about4.png",800,700,false,false);
+			ImageView pFour= new ImageView(fourP);
+			pFour.relocate(0, 2100);
+			Image fiveP = new Image("images/about5.png",800,700,false,false);
+			ImageView pFive= new ImageView(fiveP);
+			pFive.relocate(0, 2800);
 			
 			Image image = new Image("images/exitButton.png", 100, 50, false, false);
 	        ImageView imageView = new ImageView(image);
@@ -307,7 +320,7 @@ public class GameView {
 			b1.relocate(10, 10);
 
 
-			inst.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), aboutImg,b1); //<== add on parameters all elements needed
+			inst.getChildren().addAll(createCanvas(GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT), pOne,pTwo,pThree,pFour,pFive,b1); //<== add on parameters all elements needed
 			return inst;
 		}
 		

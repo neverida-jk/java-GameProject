@@ -42,9 +42,12 @@ class GameTimer extends AnimationTimer {
 	private static boolean goLeft;
 	private static boolean goRight;
 	private ArrayList<FallingObject> objects;	// Array list to store falling objects
-	private ArrayList<HeartsSystem> hearts;	// Array list to store heart objects
 	private double backgroundY;
 	private Image background = new Image( "images/BG_Mountain.jpg", 800, 700, false, false );
+	private Image updateBG = new Image("images/BG_MainMenu.jpg", 800, 700, false, false);
+	// Image representing the Basket
+	private final static Image BASKET_IMAGE = new Image("images/basket.png", 150, 100, false, false);
+	private final static Image NEW_BASKET = new Image("images/newBasket.png", 150, 100, false, false);
 
 	// Time variables for spawning objects
 	private long startSpawn;
@@ -54,7 +57,7 @@ class GameTimer extends AnimationTimer {
 	private long startSpawnDouble;
 	private long startSpawnH;
 	private long startSpawnSFO;
-	
+
 	// Counters for spawned objects
 	private int spawnBananaCount;
 	private int spawnPineappleCount;
@@ -63,17 +66,17 @@ class GameTimer extends AnimationTimer {
 	private int spawnDoubleCount;
 	private int spawnSFOCount;
 	private int spawnHeartCount;
-	private int newBg;
-	
+
 	// Constants and variables for game conditions
 	public static int time;
+	public static int count;
 	public static String pUpName;
 	public static int times;
 	public static String pUpNames;
 	public static Random r = new Random();
 
 	// Game conditions and constants
-	public final static int winningScore = 1000; //Get 1000 points to win the game
+	public final static int winningScore = 100; //Get 1000 points to win the game
 	public final static int MIN_OBJECT = 2;
 	public final static int MAX_OBJECT = 5;
 	public final static int OBJECT_TYPES = 3;
@@ -100,11 +103,10 @@ class GameTimer extends AnimationTimer {
 	GameTimer(Scene scene, GraphicsContext gc) {
 		this.gc = gc;
 		this.scene = scene;    
-		this.basket= new Basket("Default");
+		this.basket= new Basket("Default", BASKET_IMAGE, 0);
 		GameTimer.pUpName = "";
 		GameTimer.pUpNames = "";
 		this.objects = new ArrayList<FallingObject>();
-		this.hearts = new ArrayList<HeartsSystem>();
 		this.spawnBananaCount = this.spawnHeartCount = this.spawnAppleCount = this.spawnBombCount = this.spawnDoubleCount = this.spawnPineappleCount = this.spawnSFOCount = 0;
 		this.startSpawn = this.startSpawnH = this.startSpawnDouble = this.startSpawnP = this.startSpawnA = this.startSpawnB = this.startSpawnSFO =  System.nanoTime();// time start
 		this.prepareActionHandlers();
@@ -113,7 +115,6 @@ class GameTimer extends AnimationTimer {
 	// Main game loop
 	@Override
 	public void handle(long currentNanoTime) {
-		this.generateHEARTS(1);
 		this.redrawBackgroundImage();
 
 		this.AutoSpawn(currentNanoTime);
@@ -122,8 +123,13 @@ class GameTimer extends AnimationTimer {
 		this.moveSprites();
 
 		this.drawScore();
-		this.HEARTOVER();
-		
+		this.HEARTOVER(650); //parameter = initial x position of hearts
+
+
+		if (basket.getScore() >= GameTimer.winningScore/2 && count == 0) {
+			upgradeGame();
+			count++;
+		}
 		if(GameTimer.time != 0) {
 			this.drawTimer(time, pUpName);//double point
 		}
@@ -140,11 +146,32 @@ class GameTimer extends AnimationTimer {
 	// Redraws the background image
 	void redrawBackgroundImage() {
 		// clear the canvas
-		this.gc.clearRect(0, 0, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
-		this.gc.drawImage( background, 0, this.backgroundY );
+		if (basket.getScore() >= GameTimer.winningScore/2 || count == 1) {
+			this.gc.clearRect(0, 0, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+			this.gc.drawImage(updateBG, 0, this.backgroundY );
+			
+			this.gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 50));
+			this.gc.setFill(Color.WHITE);
+			this.gc.fillText("SPEED UP!", 300, 100);
+		
+		}else {
+			this.gc.clearRect(0, 0, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
+			this.gc.drawImage( background, 0, this.backgroundY );
+		}
+
 
 	}
 
+	void upgradeGame() {	
+		Apple.upgrade();
+		Pineapple.upgrade();
+		Banana.upgrade();
+		Heart_PU.upgrade();
+		Bomb.upgrade();
+		int currentScore = basket.getScore();
+		
+		this.basket = new Basket("Upgraded", NEW_BASKET, currentScore);
+	}
 	// Automatic spawning of various objects
 	void AutoSpawn(Long currentNanoTime){
 		//HEART SPAWN
@@ -261,10 +288,6 @@ class GameTimer extends AnimationTimer {
 		// draw Sprites in ArrayLists
 		for (FallingObject objects : this.objects)
 			objects.render( this.gc );
-
-		for (HeartsSystem hearts : this.hearts)
-			hearts.render( this.gc );
-
 	}
 
 	void moveSprites() {
@@ -326,9 +349,6 @@ class GameTimer extends AnimationTimer {
 		this.gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
 		this.gc.setFill(Color.WHITE);
 		this.gc.fillText(basket.getScore()+"", 80, 60);
-		this.gc.setFont(Font.font("Lucida Calligraphy", FontWeight.BOLD, 50));
-		this.gc.setFill(Color.RED);
-		this.gc.fillText(Basket.BASKET_LIFE+"", 660, 60);
 	}
 
 	void drawTimer(int time, String name){
@@ -342,60 +362,58 @@ class GameTimer extends AnimationTimer {
 		this.gc.setFill(Color.WHITE);
 		this.gc.fillText(name + time + "s left.", 20, 140);
 	}
-	
-private void HEARTOVER(){//////itoo paedit na lang nung pwesto pero nagana naman
-        
+
+	//drawing Hearts on upper right
+	private void HEARTOVER(int initialPos){
+
 		if(Basket.BASKET_LIFE == 3) {
-			Image HHH = new Image("images/heart.png", 150, 100, false, false);
-			Image HH = new Image("images/heart.png", 160, 100, false, false);
-			Image H = new Image("images/heart.png", 170, 100, false, false);
-			this.gc.drawImage(HHH, 150, 100);
-			this.gc.drawImage(HH, 160, 100);
-			this.gc.drawImage(H, 170, 100);
+			Image HHH = new Image("images/heart.png", 50, 50, false, false);
+			Image HH = new Image("images/heart.png", 50, 50, false, false);
+			Image H = new Image("images/heart.png", 50, 50, false, false);
+			this.gc.drawImage(HHH, initialPos, 0);
+			this.gc.drawImage(HH, initialPos + 50 , 0);
+			this.gc.drawImage(H, initialPos + 100, 0);
 		}
 		else if(Basket.BASKET_LIFE == 2) {
-			Image HHH = new Image("images/heart.png", 150, 100, false, false);
-			Image HH = new Image("images/heart.png", 160, 100, false, false);
-			Image H = new Image("images/heart.png", 170, 100, false, false);
-			this.gc.drawImage(HHH, 150, 100);
-			this.gc.drawImage(HH, 160, 100);
+			Image HHH = new Image("images/heart.png", 50, 50, false, false);
+			Image HH = new Image("images/heart.png", 50, 50, false, false);
+			this.gc.drawImage(HHH, initialPos + 100, 0);
+			this.gc.drawImage(HH,initialPos + 50, 0);
 		}
 		else if(Basket.BASKET_LIFE == 1) {
-			Image HHH = new Image("images/heart.png", 150, 100, false, false);
-			Image HH = new Image("images/heart.png", 160, 100, false, false);
-			Image H = new Image("images/heart.png", 170, 100, false, false);
-			this.gc.drawImage(HHH, 150, 100);
+			Image HHH = new Image("images/heart.png", 50, 50, false, false);
+			this.gc.drawImage(HHH, initialPos + 100, 0);
 		}
-			
+
 
 	}
 
 	//
 	private void drawGameOver(){
-        
+
 		if(basket.getScore() >= GameTimer.winningScore) {
 			Image winner = new Image("images/winnerBG.png", 200, 200, false, false);
 			this.gc.drawImage(winner, 0, 0);
-			
+
 			Image winner2 = new Image("images/winner.png", 450, 200, false, false);
 			this.gc.drawImage(winner2, 200, 180);
-			
+
 			GameView.mediaPlayer.stop();
 		}
 		else {
 			Image gameOver = new Image("images/loseR.png");
 			this.gc.drawImage(gameOver, 90, 100);
-			
+
 			this.gc.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 30));
 			this.gc.setFill(Color.WHITE);
 			this.gc.fillText("Score: "+ basket.getScore(), 330, 420);
-			
+
 			GameView.mediaPlayer.stop();
 			/*
 			Image gameOver = new Image("images/gameOver.png");
 			this.gc.drawImage(gameOver, 130, 180);
 			GameView.mediaPlayer.stop();
-			*/
+			 */
 		}
 		this.stop();
 
@@ -416,17 +434,6 @@ private void HEARTOVER(){//////itoo paedit na lang nung pwesto pero nagana naman
 			}
 			else this.objects.remove(i);
 		}
-	}
-
-	// Clears the existing hearts and generates a new set at the top of the screen
-	private void generateHEARTS(int numberOfHEARTS){
-		this.hearts.clear();
-		//for (int i=0; i < numberOfHEARTS;i++) { // loops through each instance of banana
-		int y = 0;//to start at the very top
-		int x = 700;
-		this.hearts.add(new HeartsSystem(x,y)); // adds an instance of banana in the array list of falling objects, adds more to renderSprites() method
-		//}
-
 	}
 	// Randomly generates heart power-ups with a delay
 	private void generateHEART(int spawnNumHeart){

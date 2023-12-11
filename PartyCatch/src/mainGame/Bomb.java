@@ -53,6 +53,8 @@ public class Bomb extends FallingObject {
 		return false;
 	}
 
-
+	static void upgrade() {
+		Bomb.BOMB_SPEED += 1;
+	}
 
 }
