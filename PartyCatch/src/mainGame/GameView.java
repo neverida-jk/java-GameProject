@@ -1,15 +1,15 @@
-package mainGame;
-
-/*
- *  What for:
- *  
+/**********************************************************
+ * The GameView class has the following functions:
+ *
  *  Handles the graphical representation of the game.
  *  Displays game objects on the screen (e.g., sprites, UI elements).
  *  Listens for user input events and forwards them to the GameController.
  *  Renders sprites, updates the display, and manages the graphical user interface (GUI).
  *  Handles the visualization of the game world, background, and other graphical elements.
  *  Manages transitions between different views (e.g., menus, in-game screens).
- */
+ ***********************************************************/
+
+package mainGame;
 
 import mainGame.GameTimer;
 
@@ -57,7 +57,7 @@ public class GameView {
 	static final int WINDOW_WIDTH = 800;
 	private static final Image ICON = new Image("images/CLogo.png");
 	private static final Image ABOUT_DEV = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures 
-	private static final Image INST_VIEW = new Image("images/underDev.png",800,700,false,false); // <== DEV Pictures
+	private static final Image INST_VIEW = new Image("images/aboutGame1.png",800,700,false,false); // <== DEV Pictures
 	static final String BGM_MAINMENU = "src/music/BGM_MainMenu.mp3"; //<== path to music
 	static final String BGM_STARTGAME = "src/music/BGM_IndoorPlayGround.mp3"; //<== path to music
 	
@@ -118,14 +118,17 @@ public class GameView {
 		music(BGM_STARTGAME);
 	}
 	
+	//Sets the stage to the splash screen
 	private void setMenu(Stage stage) {
         stage.setScene(splashScene);
 	}
 
+	//Sets the stage to the Developers screen
 	private void setAbout(Stage stage) {
 		stage.setScene(aboutScene);
 	}
 	
+	//Sets the stage to the About Game screen
 	private void setInst(Stage stage) {
 		stage.setScene(instScene);
 	}
@@ -248,11 +251,11 @@ public class GameView {
 			Image image = new Image("images/exitButton.png", 100, 50, false, false);
 	        ImageView imageView = new ImageView(image);
 			
-			Button b1 = new Button();//ito naman yung button para bumalik
+			Button b1 = new Button();// button for going back
 			b1.setGraphic(imageView);
 			b1.setSkin(new ButtonAnim(b1));
 			b1.setStyle("-fx-background-color:transparent;-fx-padding:0;-fx-background-size:0;");
-			b1.setOnMouseClicked(event -> setMenu(stage));//ginawa ko yung setMenu na func para bumalik sa simula same lang dun sa kabila
+			b1.setOnMouseClicked(event -> setMenu(stage));// setMenu function used to redirect to Main Menu
 			b1.relocate(10, 10);
 
 

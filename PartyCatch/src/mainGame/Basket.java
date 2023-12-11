@@ -1,11 +1,9 @@
-package mainGame;
-
-/*
- * 	What for:
- * 
+/***********************************
  * Represents the basket controlled by the player.
  * Manages the position and state of the basket.
- */
+ ************************************/
+
+package mainGame;
 
 import javafx.scene.image.Image;
 
@@ -14,12 +12,16 @@ public class Basket extends Sprite {
 	private boolean alive;
 	private int score;
 
+	// Image representing the Basket
 	private final static Image BASKET_IMAGE = new Image("images/basket.png", 150, 100, false, false);
+	// Initial position of the Basket
 	private final static double INITIAL_POSX = 300;
 	private final static double INITIAL_POSY = 600;
+	// Speed at which the Basket moves
 	static int BASKET_SPEED = 20;
-	public static int BASKET_LIFE = 3;//public para madali makita nung bomb HAHAHAHA
+	public static int BASKET_LIFE = 3; // Number of lives for the Basket
 
+	// Constructor for the Basket class
 	Basket(String name){
 		super(Basket.INITIAL_POSX, Basket.INITIAL_POSY,Basket.BASKET_IMAGE);
 		this.name = name;
@@ -52,22 +54,17 @@ public class Basket extends Sprite {
     	System.out.println("Score: "+score);
     }
     
+    // Decreases the Basket's score, ensuring it doesn't go below zero
     void loseScore (int decrease) {
     	this.score-=decrease;
+    	if(this.score < 0) this.score = 0;
     	System.out.println("Score: "+score);
     }
-    
-	//functions for minus points, score multiplier,
-	//slow fallling object, time boost 
-	// in short(powerups and downs)
 
+    // Moves the Basket within the game window
 	void move(){
 		if(this.xPos+this.dx >= 0 && this.xPos+this.dx <= GameView.WINDOW_WIDTH-this.width){
 			this.xPos += this.dx; 
-			//Unsure sa if statement yung pangalawa
-			//GameView. or Game. maalin lang sa dalawa
-			//base yun dun sa application name e di ko sure alin
-			//pero yung nakita ko GameView.
 		}
 	}
 

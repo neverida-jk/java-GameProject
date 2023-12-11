@@ -1,3 +1,13 @@
+/**********************************************************
+ * The GameTimer class has the following functions:
+ *
+ * Manages the game loop and timing.
+ * Extends AnimationTimer to create a continuous loop that updates the game state.
+ * Calls methods to update the game logic, render objects, and handle events on each frame.
+ * Ensures that the game runs at a consistent frame rate.
+ * Manages timing-related functionalities like animations and countdowns.
+ ***********************************************************/
+
 package mainGame;
 
 import application.Main;
@@ -18,30 +28,22 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-/* 
- * 	What for:
- * 
- * Manages the game loop and timing.
- * Extends AnimationTimer to create a continuous loop that updates the game state.
- * Calls methods to update the game logic, render objects, and handle events on each frame.
- * Ensures that the game runs at a consistent frame rate.
- * Ensures that the game runs at a consistent frame rate.
- * Manages timing-related functionalities like animations and countdowns.
- */
 
 class GameTimer extends AnimationTimer {
-	private GraphicsContext gc;
-	private Basket basket;
+	private GraphicsContext gc; // Graphics context for rendering
+	private Basket basket;	// Basket controlled by the player
 	private SlowFallingObjects SFOT;
 	private Scene scene;
 	private Stage stage;
+	// Flags for basket movement
 	private static boolean goLeft;
 	private static boolean goRight;
-	private ArrayList<FallingObject> objects;
-	private ArrayList<HeartsSystem> hearts;
+	private ArrayList<FallingObject> objects;	// Array list to store falling objects
+	private ArrayList<HeartsSystem> hearts;	// Array list to store heart objects
 	private double backgroundY;
 	private Image background = new Image( "images/BG_Mountain.jpg", 1100, 800, false, false );
-	//private Image here = new Image("images/basket.jpg");
+
+	// Time variables for spawning objects
 	private long startSpawn;
 	private long startSpawnP;
 	private long startSpawnA;
@@ -49,6 +51,8 @@ class GameTimer extends AnimationTimer {
 	private long startSpawnDouble;
 	private long startSpawnH;
 	private long startSpawnSFO;
+	
+	// Counters for spawned objects
 	private int spawnBananaCount;
 	private int spawnPineappleCount;
 	private int spawnAppleCount;
@@ -57,13 +61,16 @@ class GameTimer extends AnimationTimer {
 	private int spawnSFOCount;
 	private int spawnHeartCount;
 	private int newBg;
+	
+	// Constants and variables for game conditions
 	public static int time;
 	public static String pUpName;
 	public static int times;
 	public static String pUpNames;
 	public static Random r = new Random();
 
-	public final static int winningScore = 1000; //<= edit this for score winning condition
+	// Game conditions and constants
+	public final static int winningScore = 1000; //Get 1000 points to win the game
 	public final static int MIN_OBJECT = 2;
 	public final static int MAX_OBJECT = 5;
 	public final static int OBJECT_TYPES = 3;
@@ -71,21 +78,22 @@ class GameTimer extends AnimationTimer {
 	public final static int WIDTH_PER_OBJECT_PINEAPPLE = 500;
 	public final static int OBJECT_INITIAL_YPOS = -60;
 	public final static int BACKGROUND_SPEED = 0;
-	public static double SPAWN_DELAY = 1;//initial delay bago lumabas yung unang banana pic
-	public static double SPAWN_DELAY_HEART = 25; //delay bago lumabas yung unang heart pic
+	public static double SPAWN_DELAY = 1;//initial delay before first banana appears
+	public static double SPAWN_DELAY_HEART = 25; //delay before first heart appears
 	public static double SPAWN_DELAY_SFO = 22; 
-	public static double SPAWN_DELAY_DOUBLE = 29;//delay bago lumabas yung unang double score pic
-	public static double SPAWN_DELAY_B = 3;//delay bago lumabas yung unang bomb pic
-	public static double SPAWN_DELAY_P = 9;//delay bago lumabas yung unang pineapple pic
-	public static double SPAWN_DELAY_A = 6;//delay bago lumabas yung unang apple pic
+	public static double SPAWN_DELAY_DOUBLE = 29;//delay before first double score appears
+	public static double SPAWN_DELAY_B = 3;//delay before first bomb appears
+	public static double SPAWN_DELAY_P = 9;//delay before first watermelon appears
+	public static double SPAWN_DELAY_A = 6;//delay before first apple appears
 	public final static int SPAWN_NUM_HEART = 1;//spawn 1 time only every time
 	public final static int SPAWN_NUM_BOMB = 1;
 	public final static int SPAWN_NUM_SFO = 1;
 	public final static int SPAWN_NUM_DOUBLE = 1;//spawn 1 time only every time
-	public final static int SPAWN_NUM_BANANA = 1;//isang pic lang na banana every time na mag aappear talagang mabilis lang pagspawn nito - normies
-	public final static int SPAWN_NUM_PINEAPPLE = 1;//isang pic lang ng pineapple every time and interval na 7 seconds bago yugng sunod na pic - 2nd magandang ability
-	public final static int SPAWN_NUM_APPLE = 1;//isang pic lang ng apple every time and magaappear tapos may interval na 10 seconds - pinakamalakas na fruit
+	public final static int SPAWN_NUM_BANANA = 1;//spawn rate of banana - most common fruit
+	public final static int SPAWN_NUM_PINEAPPLE = 1;//spawn rate of watermelon - third common fruit
+	public final static int SPAWN_NUM_APPLE = 1;//spawn rate of apple - second common fruit
 
+	// Constructor
 	GameTimer(Scene scene, GraphicsContext gc) {
 		this.gc = gc;
 		this.scene = scene;    
@@ -99,6 +107,7 @@ class GameTimer extends AnimationTimer {
 		this.prepareActionHandlers();
 	}
 
+	// Main game loop
 	@Override
 	public void handle(long currentNanoTime) {
 		this.generateHEARTS(1);
@@ -123,7 +132,7 @@ class GameTimer extends AnimationTimer {
 
 	}
 
-
+	// Redraws the background image
 	void redrawBackgroundImage() {
 		// clear the canvas
 		this.gc.clearRect(0, 0, GameView.WINDOW_WIDTH,GameView.WINDOW_HEIGHT);
@@ -131,6 +140,7 @@ class GameTimer extends AnimationTimer {
 
 	}
 
+	// Automatic spawning of various objects
 	void AutoSpawn(Long currentNanoTime){
 		//HEART SPAWN
 		double spawnElapsedTimeH = (currentNanoTime-this.startSpawnH) / 1000000000.0;
@@ -207,7 +217,7 @@ class GameTimer extends AnimationTimer {
 			this.spawnBananaCount++;
 		}
 
-		//PINEAPPLE SPAWN
+		//WATERMELON SPAWN
 		double spawnElapsedTimeP = (currentNanoTime-this.startSpawnP) / 1000000000.0;
 		if(spawnElapsedTimeP > GameTimer.SPAWN_DELAY_P){
 
@@ -365,7 +375,7 @@ class GameTimer extends AnimationTimer {
 		}
 	}
 
-
+	// Clears the existing hearts and generates a new set at the top of the screen
 	private void generateHEARTS(int numberOfHEARTS){
 		this.hearts.clear();
 		//for (int i=0; i < numberOfHEARTS;i++) { // loops through each instance of banana
@@ -375,7 +385,7 @@ class GameTimer extends AnimationTimer {
 		//}
 
 	}
-
+	// Randomly generates heart power-ups with a delay
 	private void generateHEART(int spawnNumHeart){
 		GameTimer.SPAWN_DELAY_HEART = r.nextDouble(30, 50);
 		Random r = new Random(); // randomize number for speed in y
@@ -408,6 +418,7 @@ class GameTimer extends AnimationTimer {
 
 	// Instantiates 1 banana at a random x and y locations
 	private void generateBOMB(int numberOfBOMB){
+		// Randomly generates bomb objects with a delay
 		GameTimer.SPAWN_DELAY_B = r.nextDouble(1,5);
 		Random r = new Random(); // randomize number for speed in y
 		for (int i=0; i < numberOfBOMB;i++) { // loops through each instance of banana
